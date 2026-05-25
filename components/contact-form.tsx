@@ -16,6 +16,8 @@ import {
   Wand,
   PencilLine,
   ListChecks,
+  CheckCircle2,
+  AlertCircle,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -51,6 +53,9 @@ export function ContactForm() {
   const [message, setMessage] = useState("")
   const [aiBusy, setAiBusy] = useState(false)
   const [originalMessage, setOriginalMessage] = useState<string | null>(null)
+
+  // Inline status banner
+  const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null)
 
   useEffect(() => {
     void refreshCaptcha()
@@ -181,6 +186,7 @@ export function ContactForm() {
     e.preventDefault()
     if (isSubmitting) return
     setIsSubmitting(true)
+    setStatus(null)
 
     const form = e.currentTarget
     const fd = new FormData(form)
@@ -189,9 +195,9 @@ export function ContactForm() {
     fd.set("message", finalMessage)
 
     if (!captcha) {
-      toast({
-        title: lang === "fr" ? "Captcha indisponible" : "Captcha unavailable",
-        variant: "destructive",
+      setStatus({
+        type: "error",
+        message: lang === "fr" ? "Captcha indisponible. Réessayez." : "Captcha unavailable. Try again.",
       })
       setIsSubmitting(false)
       return
@@ -208,8 +214,15 @@ export function ContactForm() {
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
         await refreshCaptcha()
-        throw new Error(data.error || "Erreur lors de l'envoi.")
+        throw new Error(data.error || (lang === "fr" ? "Erreur lors de l'envoi." : "Sending failed."))
       }
+      setStatus({
+        type: "success",
+        message:
+          lang === "fr"
+            ? "Message envoyé avec succès. Je reviens vers vous très vite."
+            : "Message sent successfully. I'll get back to you shortly.",
+      })
       toast({
         title: t("contact.toast.title"),
         description: t("contact.toast.desc"),
@@ -220,10 +233,17 @@ export function ContactForm() {
       setOriginalMessage(null)
       setGuided({ context: "", need: "", stack: "", deadline: "" })
       void refreshCaptcha()
+
+      // Scroll into view so the user sees the success state
+      requestAnimationFrame(() => {
+        document.getElementById("contact-status")?.scrollIntoView({ behavior: "smooth", block: "center" })
+      })
     } catch (err) {
+      const msg = err instanceof Error ? err.message : lang === "fr" ? "Impossible d'envoyer le message." : "Could not send message."
+      setStatus({ type: "error", message: msg })
       toast({
         title: lang === "fr" ? "Erreur" : "Error",
-        description: err instanceof Error ? err.message : "Impossible d'envoyer le message.",
+        description: msg,
         variant: "destructive",
       })
     } finally {
@@ -240,6 +260,53 @@ export function ContactForm() {
       className="rounded-2xl border border-border bg-background p-6 md:p-8"
     >
       <form onSubmit={handleSubmit} className="space-y-5">
+        <AnimatePresence>
+          {status && (
+            <motion.div
+              key={status.type + status.message}
+              id="contact-status"
+              initial={{ opacity: 0, y: -8, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: "auto" }}
+              exit={{ opacity: 0, y: -8, height: 0 }}
+              transition={{ duration: 0.25 }}
+              role={status.type === "error" ? "alert" : "status"}
+              aria-live={status.type === "error" ? "assertive" : "polite"}
+              className={cn(
+                "flex items-start gap-3 overflow-hidden rounded-xl border p-4",
+                status.type === "success"
+                  ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                  : "border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300",
+              )}
+            >
+              {status.type === "success" ? (
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
+              ) : (
+                <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
+              )}
+              <div className="flex-1 text-sm leading-relaxed">
+                <p className="font-medium">
+                  {status.type === "success"
+                    ? lang === "fr"
+                      ? "Message envoyé"
+                      : "Message sent"
+                    : lang === "fr"
+                      ? "Envoi impossible"
+                      : "Sending failed"}
+                </p>
+                <p className="mt-0.5 text-[13px] opacity-90">{status.message}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setStatus(null)}
+                className="rounded-full p-1 hover:bg-foreground/10"
+                aria-label={lang === "fr" ? "Fermer" : "Close"}
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Honeypot — hidden from humans */}
         <input
           type="text"
