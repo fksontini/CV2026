@@ -2,11 +2,10 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowUpRight, Github } from "lucide-react"
+import { ArrowUpRight, FileText } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 
 interface ProjectCardProps {
   title: string
@@ -15,10 +14,12 @@ interface ProjectCardProps {
   image: string
   demoUrl: string
   repoUrl: string
+  codename?: string
 }
 
-export function ProjectCard({ title, description, tags, image, demoUrl, repoUrl }: ProjectCardProps) {
+export function ProjectCard({ title, description, tags, demoUrl, repoUrl, codename }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const opCode = codename ?? `OP-${Math.floor(Math.random() * 9000 + 1000)}`
 
   return (
     <motion.div
@@ -26,61 +27,96 @@ export function ProjectCard({ title, description, tags, image, demoUrl, repoUrl 
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="group"
+      className="group h-full"
     >
       <div
-        className="relative h-full overflow-hidden rounded-xl bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 transition-all duration-300 group-hover:border-sky-500/50"
+        className="relative h-full bg-card border border-border transition-colors duration-300 group-hover:border-accent flex flex-col"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="absolute -inset-1 bg-gradient-to-r from-sky-500/10 to-blue-700/10 rounded-xl blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+        {/* corner brackets */}
+        <span className="absolute top-1 left-1 w-3 h-3 border-t-2 border-l-2 border-accent/0 group-hover:border-accent transition-colors" />
+        <span className="absolute top-1 right-1 w-3 h-3 border-t-2 border-r-2 border-accent/0 group-hover:border-accent transition-colors" />
+        <span className="absolute bottom-1 left-1 w-3 h-3 border-b-2 border-l-2 border-accent/0 group-hover:border-accent transition-colors" />
+        <span className="absolute bottom-1 right-1 w-3 h-3 border-b-2 border-r-2 border-accent/0 group-hover:border-accent transition-colors" />
 
-        <div className="relative h-full flex flex-col">
-          <div className="relative overflow-hidden h-48">
-            <div className="absolute inset-0 bg-gradient-to-b from-sky-500/15 to-blue-700/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
-            <img
-              src={image || "/placeholder.svg"}
-              alt={title}
-              className={`w-full h-full object-cover transition-transform duration-700 ${isHovered ? "scale-110" : "scale-100"}`}
-            />
+        {/* dossier header */}
+        <div className="relative h-44 border-b border-border bg-secondary/40 tactical-grid overflow-hidden">
+          <div className="absolute inset-0 noise scanlines" />
+          <div className="absolute top-2 left-2 right-2 flex justify-between items-center text-[10px] font-mono uppercase tracking-widest text-muted-foreground z-10">
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 bg-destructive animate-blink" />
+              REC
+            </span>
+            <span>{opCode}</span>
           </div>
 
-          <div className="p-6 flex-grow">
-            <h3 className="text-xl font-bold mb-2">{title}</h3>
-            <p className="text-slate-400 mb-4">{description}</p>
-
-            <div className="flex flex-wrap gap-2 mb-6">
-              {tags.map((tag, index) => (
-                <Badge key={index} variant="secondary" className="bg-slate-800/50 hover:bg-slate-800 text-slate-300">
-                  {tag}
-                </Badge>
-              ))}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center">
+              <div className="font-stencil text-3xl md:text-4xl text-accent uppercase tracking-widest text-shadow-stencil">
+                {opCode}
+              </div>
+              <div className="font-mono text-[10px] text-muted-foreground mt-1 tracking-widest">
+                MISSION DOSSIER
+              </div>
             </div>
+          </div>
 
-            <div className="flex justify-between mt-auto pt-4 border-t border-slate-800/50">
-              <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white hover:bg-slate-800/50" asChild>
-                <Link href={repoUrl} target="_blank" rel="noopener noreferrer">
-                  <Github className="mr-2 h-4 w-4" />
-                  Code
-                </Link>
-              </Button>
-              <Button
-                size="sm"
-                className="bg-gradient-to-r from-sky-500 to-blue-700 hover:from-blue-700 hover:to-sky-500 border-0"
-                asChild
+          {/* crosshair on hover */}
+          <div
+            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"}`}
+          >
+            <div className="relative w-32 h-32 border border-accent/70 rounded-full">
+              <div className="absolute top-1/2 left-0 w-full h-px bg-accent/70" />
+              <div className="absolute left-1/2 top-0 h-full w-px bg-accent/70" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-accent" />
+            </div>
+          </div>
+
+          {/* CLASSIFIED stamp */}
+          <div className="absolute top-3 right-3 z-20 stamp text-destructive font-stencil text-xs">
+            CLASSIFIED
+          </div>
+        </div>
+
+        <div className="p-5 flex-grow flex flex-col">
+          <div className="flex items-start gap-2 mb-2">
+            <FileText className="h-4 w-4 text-accent mt-1 shrink-0" />
+            <h3 className="font-stencil text-lg uppercase tracking-wide leading-tight">{title}</h3>
+          </div>
+          <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{description}</p>
+
+          <div className="flex flex-wrap gap-1.5 mb-4">
+            {tags.map((tag, index) => (
+              <span
+                key={index}
+                className="text-[10px] font-mono uppercase tracking-widest border border-border bg-secondary/50 text-foreground px-2 py-0.5"
               >
-                <Link href={demoUrl} target="_blank" rel="noopener noreferrer">
-                  Live Demo
-                  <ArrowUpRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
+                {tag}
+              </span>
+            ))}
           </div>
 
-          <div className="absolute top-3 right-3 z-20">
-            <div
-              className={`w-3 h-3 rounded-full ${isHovered ? "bg-green-500" : "bg-slate-500"} transition-colors duration-300`}
-            ></div>
+          <div className="flex justify-between items-center mt-auto pt-3 border-t border-dashed border-border/60">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 text-[10px] uppercase tracking-widest text-muted-foreground hover:text-accent hover:bg-transparent font-mono px-0"
+              asChild
+            >
+              <Link href={repoUrl} target="_blank" rel="noopener noreferrer">
+                {"// SOURCE"}
+              </Link>
+            </Button>
+            <Button
+              size="sm"
+              className="h-8 text-[10px] uppercase tracking-widest font-mono bg-primary hover:bg-primary/80 text-primary-foreground border border-accent/40"
+              asChild
+            >
+              <Link href={demoUrl} target="_blank" rel="noopener noreferrer">
+                ENGAGE <ArrowUpRight className="ml-1 h-3 w-3" />
+              </Link>
+            </Button>
           </div>
         </div>
       </div>

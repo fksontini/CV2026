@@ -19,12 +19,11 @@ export function ContactForm() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1500))
 
     toast({
-      title: "Message sent!",
-      description: "Thanks for reaching out. I'll get back to you soon.",
+      title: "TRANSMISSION CHIFFRÉE ENVOYÉE",
+      description: "Message reçu sur le canal sécurisé. Réponse sous 24h.",
     })
 
     setIsSubmitting(false)
@@ -38,53 +37,79 @@ export function ContactForm() {
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
     >
-      <div className="relative overflow-hidden rounded-xl bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 p-6 transition-all duration-300 hover:border-sky-500/50">
-        <div className="absolute -inset-1 bg-gradient-to-r from-sky-500/10 to-blue-700/10 rounded-xl blur opacity-25 hover:opacity-100 transition duration-1000 hover:duration-200"></div>
+      <div className="relative bg-card border border-border">
+        <span className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-accent" />
+        <span className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-accent" />
+        <span className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-accent" />
+        <span className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-accent" />
 
-        <div className="relative">
-          <h3 className="text-2xl font-bold mb-6">Send Me a Message</h3>
+        <div className="bg-secondary/60 border-b border-border px-4 py-2 flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+          <span className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 bg-destructive animate-blink rounded-full" />
+            CANAL CHIFFRÉ // AES-256
+          </span>
+          <span>FREQ.443.92</span>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
+        <div className="p-6">
+          <h3 className="font-stencil text-2xl uppercase tracking-wide mb-1">► Transmission</h3>
+          <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-6">
+            Établir le contact — voie sécurisée
+          </p>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-mono uppercase tracking-widest text-accent">
+                {"// IDENTIFIANT_OPÉRATEUR"}
+              </label>
               <Input
-                placeholder="Your Name"
+                placeholder="Votre nom"
                 required
-                className="bg-slate-950/50 border-slate-800 focus:border-sky-500 focus:ring-sky-500/20"
+                className="bg-background border-border focus:border-accent rounded-none font-mono"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-mono uppercase tracking-widest text-accent">
+                {"// CANAL_RETOUR"}
+              </label>
               <Input
                 type="email"
-                placeholder="Your Email"
+                placeholder="vous@exemple.com"
                 required
-                className="bg-slate-950/50 border-slate-800 focus:border-sky-500 focus:ring-sky-500/20"
+                className="bg-background border-border focus:border-accent rounded-none font-mono"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-mono uppercase tracking-widest text-accent">
+                {"// OBJET_MISSION"}
+              </label>
               <Input
-                placeholder="Subject"
+                placeholder="Sujet"
                 required
-                className="bg-slate-950/50 border-slate-800 focus:border-sky-500 focus:ring-sky-500/20"
+                className="bg-background border-border focus:border-accent rounded-none font-mono"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-mono uppercase tracking-widest text-accent">
+                {"// CONTENU_TRANSMISSION"}
+              </label>
               <Textarea
-                placeholder="Your Message"
+                placeholder="Détails de la mission..."
                 rows={5}
                 required
-                className="bg-slate-950/50 border-slate-800 focus:border-sky-500 focus:ring-sky-500/20"
+                className="bg-background border-border focus:border-accent rounded-none font-mono resize-none"
               />
             </div>
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-sky-500 to-blue-700 hover:from-blue-700 hover:to-sky-500 border-0"
+              className="w-full bg-accent hover:bg-accent/90 text-accent-foreground rounded-none font-stencil uppercase tracking-widest h-11"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                <>Sending...</>
+                <>► CHIFFREMENT EN COURS...</>
               ) : (
                 <>
-                  Send Message <Send className="ml-2 h-4 w-4" />
+                  ► ENVOYER LA TRANSMISSION <Send className="ml-2 h-4 w-4" />
                 </>
               )}
             </Button>

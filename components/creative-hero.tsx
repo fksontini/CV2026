@@ -9,186 +9,192 @@ export function CreativeHero() {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    let devicePixelRatio: number
+    let rafId = 0
+    let dpr = 1
+    let w = 0
+    let h = 0
 
-    // Set canvas dimensions
-    const setCanvasDimensions = () => {
-      devicePixelRatio = window.devicePixelRatio || 1
+    const resize = () => {
+      dpr = window.devicePixelRatio || 1
       const rect = canvas.getBoundingClientRect()
+      w = rect.width
+      h = rect.height
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
+    resize()
+    window.addEventListener("resize", resize)
 
-      canvas.width = rect.width * devicePixelRatio
-      canvas.height = rect.height * devicePixelRatio
-
-      ctx.scale(devicePixelRatio, devicePixelRatio)
+    // Targets ("blips") on radar
+    const blips: { angle: number; radius: number; size: number; phase: number }[] = []
+    for (let i = 0; i < 14; i++) {
+      blips.push({
+        angle: Math.random() * Math.PI * 2,
+        radius: Math.random() * 0.85 + 0.1,
+        size: Math.random() * 2 + 1,
+        phase: Math.random() * Math.PI * 2,
+      })
     }
 
-    setCanvasDimensions()
-    window.addEventListener("resize", setCanvasDimensions)
+    let sweep = 0
+    const start = performance.now()
 
-    // Mouse position
-    let mouseX = 0
-    let mouseY = 0
-    let targetX = 0
-    let targetY = 0
+    const draw = (now: number) => {
+      const t = (now - start) / 1000
+      ctx.clearRect(0, 0, w, h)
 
-    window.addEventListener("mousemove", (e) => {
-      const rect = canvas.getBoundingClientRect()
-      targetX = e.clientX - rect.left
-      targetY = e.clientY - rect.top
-    })
+      const cx = w / 2
+      const cy = h / 2
+      const maxR = Math.min(w, h) * 0.45
 
-    // Particle class
-    class Particle {
-      x: number
-      y: number
-      size: number
-      baseX: number
-      baseY: number
-      density: number
-      color: string
-      distance: number
-
-      constructor(x: number, y: number) {
-        this.x = x
-        this.y = y
-        this.baseX = x
-        this.baseY = y
-        this.size = Math.random() * 5 + 2
-        this.density = Math.random() * 30 + 1
-        this.distance = 0
-
-        // Air Force palette: steel blue with rare gold particles
-        const isGold = Math.random() > 0.92
-        if (isGold) {
-          this.color = `hsl(45, 70%, 60%)` // subtle gold accent (officer rank)
-        } else {
-          const hue = Math.random() * 30 + 195 // 195-225: airforce/steel blue
-          const sat = Math.random() * 25 + 55
-          const light = Math.random() * 20 + 55
-          this.color = `hsl(${hue}, ${sat}%, ${light}%)`
-        }
-      }
-
-      update() {
-        // Calculate distance between mouse and particle
-        const dx = mouseX - this.x
-        const dy = mouseY - this.y
-        this.distance = Math.sqrt(dx * dx + dy * dy)
-
-        const forceDirectionX = dx / this.distance
-        const forceDirectionY = dy / this.distance
-
-        const maxDistance = 100
-        const force = (maxDistance - this.distance) / maxDistance
-
-        if (this.distance < maxDistance) {
-          const directionX = forceDirectionX * force * this.density
-          const directionY = forceDirectionY * force * this.density
-
-          this.x -= directionX
-          this.y -= directionY
-        } else {
-          if (this.x !== this.baseX) {
-            const dx = this.x - this.baseX
-            this.x -= dx / 10
-          }
-          if (this.y !== this.baseY) {
-            const dy = this.y - this.baseY
-            this.y -= dy / 10
-          }
-        }
-      }
-
-      draw() {
-        ctx.fillStyle = this.color
+      // Background tactical grid
+      ctx.strokeStyle = "rgba(138, 154, 91, 0.08)"
+      ctx.lineWidth = 1
+      const step = 24
+      for (let x = 0; x < w; x += step) {
         ctx.beginPath()
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-        ctx.closePath()
+        ctx.moveTo(x, 0)
+        ctx.lineTo(x, h)
+        ctx.stroke()
+      }
+      for (let y = 0; y < h; y += step) {
+        ctx.beginPath()
+        ctx.moveTo(0, y)
+        ctx.lineTo(w, y)
+        ctx.stroke()
+      }
+
+      // Radar concentric circles
+      ctx.strokeStyle = "rgba(184, 156, 96, 0.45)"
+      ctx.lineWidth = 1
+      for (let i = 1; i <= 4; i++) {
+        ctx.beginPath()
+        ctx.arc(cx, cy, (maxR * i) / 4, 0, Math.PI * 2)
+        ctx.stroke()
+      }
+      // Crosshair lines
+      ctx.beginPath()
+      ctx.moveTo(cx - maxR, cy)
+      ctx.lineTo(cx + maxR, cy)
+      ctx.moveTo(cx, cy - maxR)
+      ctx.lineTo(cx, cy + maxR)
+      ctx.stroke()
+
+      // Diagonal compass lines
+      ctx.strokeStyle = "rgba(184, 156, 96, 0.18)"
+      ctx.beginPath()
+      ctx.moveTo(cx - maxR * 0.71, cy - maxR * 0.71)
+      ctx.lineTo(cx + maxR * 0.71, cy + maxR * 0.71)
+      ctx.moveTo(cx - maxR * 0.71, cy + maxR * 0.71)
+      ctx.lineTo(cx + maxR * 0.71, cy - maxR * 0.71)
+      ctx.stroke()
+
+      // Sweep arm
+      sweep = (t * 0.9) % (Math.PI * 2)
+      const grad = ctx.createConicGradient
+        ? ctx.createConicGradient(sweep - Math.PI / 2, cx, cy)
+        : null
+      if (grad) {
+        grad.addColorStop(0, "rgba(138, 154, 91, 0.55)")
+        grad.addColorStop(0.08, "rgba(138, 154, 91, 0.15)")
+        grad.addColorStop(0.25, "rgba(138, 154, 91, 0)")
+        grad.addColorStop(1, "rgba(138, 154, 91, 0)")
+        ctx.fillStyle = grad
+        ctx.beginPath()
+        ctx.arc(cx, cy, maxR, 0, Math.PI * 2)
         ctx.fill()
+      } else {
+        // Fallback line sweep
+        ctx.strokeStyle = "rgba(138, 154, 91, 0.6)"
+        ctx.lineWidth = 2
+        ctx.beginPath()
+        ctx.moveTo(cx, cy)
+        ctx.lineTo(cx + Math.cos(sweep) * maxR, cy + Math.sin(sweep) * maxR)
+        ctx.stroke()
       }
-    }
 
-    // Create particle grid
-    const particlesArray: Particle[] = []
-    const particleCount = 1000
-    const gridSize = 30
+      // Blips
+      for (const b of blips) {
+        const x = cx + Math.cos(b.angle) * maxR * b.radius
+        const y = cy + Math.sin(b.angle) * maxR * b.radius
+        // Distance from sweep angle
+        let diff = b.angle - sweep
+        while (diff < 0) diff += Math.PI * 2
+        while (diff > Math.PI * 2) diff -= Math.PI * 2
+        const intensity = Math.max(0, 1 - diff / (Math.PI / 3))
+        const pulse = (Math.sin(t * 2 + b.phase) + 1) / 2
+        const alpha = Math.max(0.15, intensity * (0.6 + pulse * 0.4))
 
-    function init() {
-      particlesArray.length = 0
+        ctx.fillStyle = `rgba(184, 220, 120, ${alpha})`
+        ctx.beginPath()
+        ctx.arc(x, y, b.size + intensity * 2.5, 0, Math.PI * 2)
+        ctx.fill()
 
-      const canvasWidth = canvas.width / devicePixelRatio
-      const canvasHeight = canvas.height / devicePixelRatio
-
-      const numX = Math.floor(canvasWidth / gridSize)
-      const numY = Math.floor(canvasHeight / gridSize)
-
-      for (let y = 0; y < numY; y++) {
-        for (let x = 0; x < numX; x++) {
-          const posX = x * gridSize + gridSize / 2
-          const posY = y * gridSize + gridSize / 2
-          particlesArray.push(new Particle(posX, posY))
-        }
-      }
-    }
-
-    init()
-
-    // Animation loop
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-      // Smooth mouse following
-      mouseX += (targetX - mouseX) * 0.1
-      mouseY += (targetY - mouseY) * 0.1
-
-      // Draw connections
-      for (let i = 0; i < particlesArray.length; i++) {
-        particlesArray[i].update()
-        particlesArray[i].draw()
-
-        // Draw connections
-        for (let j = i; j < particlesArray.length; j++) {
-          const dx = particlesArray[i].x - particlesArray[j].x
-          const dy = particlesArray[i].y - particlesArray[j].y
-          const distance = Math.sqrt(dx * dx + dy * dy)
-
-          if (distance < 30) {
-            ctx.beginPath()
-            ctx.strokeStyle = `rgba(125, 175, 230, ${0.18 - distance / 200})`
-            ctx.lineWidth = 0.5
-            ctx.moveTo(particlesArray[i].x, particlesArray[i].y)
-            ctx.lineTo(particlesArray[j].x, particlesArray[j].y)
-            ctx.stroke()
-          }
+        if (intensity > 0.5) {
+          ctx.strokeStyle = `rgba(184, 220, 120, ${alpha * 0.5})`
+          ctx.lineWidth = 1
+          ctx.beginPath()
+          ctx.arc(x, y, b.size + 6 + intensity * 4, 0, Math.PI * 2)
+          ctx.stroke()
         }
       }
 
-      requestAnimationFrame(animate)
+      // Compass labels
+      ctx.fillStyle = "rgba(184, 156, 96, 0.7)"
+      ctx.font = "10px ui-monospace, Menlo, monospace"
+      ctx.textAlign = "center"
+      ctx.textBaseline = "middle"
+      ctx.fillText("N", cx, cy - maxR - 12)
+      ctx.fillText("S", cx, cy + maxR + 12)
+      ctx.fillText("E", cx + maxR + 14, cy)
+      ctx.fillText("W", cx - maxR - 14, cy)
+
+      // HUD readout
+      ctx.fillStyle = "rgba(138, 154, 91, 0.85)"
+      ctx.font = "bold 10px ui-monospace, Menlo, monospace"
+      ctx.textAlign = "left"
+      ctx.fillText(`AZIMUT  ${((sweep * 180) / Math.PI).toFixed(1).padStart(5, "0")}°`, 12, 18)
+      ctx.fillText(`TRACK   ${blips.length} CONTACTS`, 12, 32)
+      ctx.textAlign = "right"
+      ctx.fillText(`LAT 48.823  LON 02.270`, w - 12, 18)
+      ctx.fillText(`STATUS  OPÉRATIONNEL`, w - 12, 32)
+
+      rafId = requestAnimationFrame(draw)
     }
 
-    animate()
-
-    // Handle window resize
-    window.addEventListener("resize", init)
+    rafId = requestAnimationFrame(draw)
 
     return () => {
-      window.removeEventListener("resize", setCanvasDimensions)
-      window.removeEventListener("resize", init)
+      cancelAnimationFrame(rafId)
+      window.removeEventListener("resize", resize)
     }
   }, [])
 
   return (
     <motion.div
-      className="w-full h-[400px] md:h-[500px] relative"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
+      className="relative w-full h-[420px] md:h-[520px] bg-card border border-border"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8 }}
     >
-      <canvas ref={canvasRef} className="w-full h-full" style={{ display: "block" }} />
+      <span className="absolute -top-1 -left-1 w-5 h-5 border-t-2 border-l-2 border-accent z-10" />
+      <span className="absolute -top-1 -right-1 w-5 h-5 border-t-2 border-r-2 border-accent z-10" />
+      <span className="absolute -bottom-1 -left-1 w-5 h-5 border-b-2 border-l-2 border-accent z-10" />
+      <span className="absolute -bottom-1 -right-1 w-5 h-5 border-b-2 border-r-2 border-accent z-10" />
+
+      <canvas ref={canvasRef} className="block w-full h-full" />
+
+      <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center text-[10px] font-mono uppercase tracking-widest text-muted-foreground z-10 pointer-events-none">
+        <span>RADAR.MK-IV</span>
+        <span className="flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 bg-accent animate-blink rounded-full" />
+          LIVE FEED
+        </span>
+      </div>
     </motion.div>
   )
 }

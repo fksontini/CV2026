@@ -16,33 +16,33 @@ export function SectionHeading({ title, subtitle }: SectionHeadingProps) {
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <div className="inline-block">
-          <div className="relative px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm bg-white/5 backdrop-blur-sm border-l-2 border-r-2 border-amber-400/70 mb-2">
-            <span className="relative z-10 text-slate-200">{subtitle}</span>
-          </div>
+        <div className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-accent font-mono">
+          <span className="block w-8 h-px bg-accent" />
+          <span>// {subtitle}</span>
+          <span className="block w-8 h-px bg-accent" />
         </div>
       </motion.div>
 
       <motion.h2
-        className="text-4xl md:text-5xl font-bold tracking-tight text-white"
+        className="font-stencil text-5xl md:text-7xl tracking-wider text-foreground uppercase text-shadow-stencil"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
         viewport={{ once: true }}
       >
         {title}
       </motion.h2>
 
       <motion.div
-        className="flex items-center justify-center gap-2 mt-6"
-        initial={{ opacity: 0, scale: 0 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
+        className="flex items-center justify-center gap-3 mt-4 font-mono text-[10px] tracking-widest text-muted-foreground"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
         viewport={{ once: true }}
       >
-        <span className="block w-10 h-px bg-slate-600" />
-        <span className="block w-2 h-2 rotate-45 bg-amber-400" />
-        <span className="block w-10 h-px bg-slate-600" />
+        <span className="text-accent">[</span>
+        <span>SECTION CLASSIFIÉE — NIVEAU 3</span>
+        <span className="text-accent">]</span>
       </motion.div>
     </div>
   )

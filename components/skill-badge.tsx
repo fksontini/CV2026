@@ -8,31 +8,48 @@ interface SkillBadgeProps {
 }
 
 export function SkillBadge({ name, level }: SkillBadgeProps) {
+  const grade =
+    level >= 90 ? "S-CLASS" : level >= 80 ? "A-CLASS" : level >= 70 ? "B-CLASS" : "C-CLASS"
+
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.95 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3 }}
       viewport={{ once: true }}
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -4 }}
+      className="group"
     >
-      <div className="relative overflow-hidden rounded-xl bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 p-6 h-full transition-all duration-300 hover:border-sky-500/50">
-        <div className="absolute -inset-1 bg-gradient-to-r from-sky-500/10 to-blue-700/10 rounded-xl blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-
-        <div className="relative">
-          <div className="text-center mb-4 font-medium text-lg">{name}</div>
-
-          <div className="relative h-2.5 w-full bg-slate-800 rounded-full overflow-hidden">
-            <motion.div
-              className="absolute top-0 left-0 h-full bg-gradient-to-r from-sky-500 to-blue-700 rounded-full"
-              initial={{ width: 0 }}
-              whileInView={{ width: `${level}%` }}
-              transition={{ duration: 1, delay: 0.2 }}
-              viewport={{ once: true }}
-            />
+      <div className="relative bg-card border border-border p-5 h-full transition-colors duration-300 group-hover:border-accent corner-cut-sm">
+        <div className="flex items-start justify-between mb-3">
+          <div className="font-stencil text-base uppercase tracking-wide text-foreground leading-tight">
+            {name}
           </div>
+          <span className="font-mono text-[9px] text-accent border border-accent/60 px-1.5 py-0.5 shrink-0 ml-2">
+            {grade}
+          </span>
+        </div>
 
-          <div className="mt-2 text-right text-sm text-slate-400">{level}%</div>
+        {/* tick marks */}
+        <div className="flex gap-px mb-2">
+          {Array.from({ length: 20 }).map((_, i) => {
+            const filled = i < Math.round(level / 5)
+            return (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: i * 0.02 }}
+                viewport={{ once: true }}
+                className={`flex-1 h-2 ${filled ? "bg-primary" : "bg-secondary"}`}
+              />
+            )
+          })}
+        </div>
+
+        <div className="flex justify-between items-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          <span>OPS.LEVEL</span>
+          <span className="text-accent">{level.toString().padStart(2, "0")} / 100</span>
         </div>
       </div>
     </motion.div>
