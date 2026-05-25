@@ -139,6 +139,10 @@ const fr: Dict = {
 
   // Timeline status
   "timeline.active": "ACTIF",
+
+  // Audio
+  "audio.on": "AUDIO ON",
+  "audio.off": "AUDIO OFF",
 }
 
 const en: Dict = {
@@ -262,6 +266,9 @@ const en: Dict = {
   "nav.cv": "► FULL DOSSIER",
 
   "timeline.active": "ACTIVE",
+
+  "audio.on": "AUDIO ON",
+  "audio.off": "AUDIO OFF",
 }
 
 const dicts: Record<Lang, Dict> = { fr, en }

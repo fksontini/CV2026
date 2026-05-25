@@ -5,141 +5,26 @@ import { useT } from "@/lib/i18n"
 
 interface Client {
   name: string
-  // Tactical wordmark rendered as text — keeps the military "stamp" aesthetic
-  wordmark: React.ReactNode
+  short: string
   sector: string
   code: string
+  natoCode: string
+  years: string
 }
 
 const clients: Client[] = [
-  {
-    name: "Crédit Agricole",
-    code: "CA-001",
-    sector: "BANKING",
-    wordmark: (
-      <div className="flex items-center gap-2">
-        <span className="font-stencil text-2xl tracking-tight">CA</span>
-        <span className="font-serif italic text-base tracking-tight">Crédit Agricole</span>
-      </div>
-    ),
-  },
-  {
-    name: "BNP Paribas",
-    code: "BNP-002",
-    sector: "BANKING",
-    wordmark: (
-      <div className="flex items-center gap-1.5">
-        <span className="grid grid-cols-3 gap-[2px]">
-          {Array.from({ length: 9 }).map((_, i) => (
-            <span key={i} className="w-1 h-1 bg-current" />
-          ))}
-        </span>
-        <span className="font-sans font-bold text-base tracking-tight">BNP PARIBAS</span>
-      </div>
-    ),
-  },
-  {
-    name: "EDF",
-    code: "EDF-003",
-    sector: "ENERGY",
-    wordmark: (
-      <div className="flex items-center gap-1">
-        <span className="font-sans font-black italic text-3xl tracking-tighter">EDF</span>
-      </div>
-    ),
-  },
-  {
-    name: "ENGIE",
-    code: "ENG-004",
-    sector: "ENERGY",
-    wordmark: <span className="font-sans font-bold text-2xl tracking-[0.15em]">ENGIE</span>,
-  },
-  {
-    name: "BMW",
-    code: "BMW-005",
-    sector: "AUTOMOTIVE",
-    wordmark: (
-      <div className="flex items-center gap-2">
-        <span className="relative w-7 h-7 rounded-full border-2 border-current flex items-center justify-center overflow-hidden">
-          <span className="absolute top-0 left-0 w-1/2 h-1/2 bg-current/20" />
-          <span className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-current/20" />
-          <span className="absolute inset-1 rounded-full border border-current" />
-        </span>
-        <span className="font-sans font-bold text-2xl tracking-[0.2em]">BMW</span>
-      </div>
-    ),
-  },
-  {
-    name: "Deloitte",
-    code: "DLT-006",
-    sector: "CONSULTING",
-    wordmark: (
-      <div className="flex items-baseline gap-0.5">
-        <span className="font-sans font-bold text-2xl tracking-tight">Deloitte</span>
-        <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-      </div>
-    ),
-  },
-  {
-    name: "NaTran",
-    code: "NAT-007",
-    sector: "ENERGY",
-    wordmark: (
-      <div className="flex items-center gap-1.5">
-        <span className="w-3 h-3 rotate-45 border-2 border-current" />
-        <span className="font-sans font-bold text-xl tracking-tight">NaTran</span>
-      </div>
-    ),
-  },
-  {
-    name: "Avanade",
-    code: "AVN-008",
-    sector: "CONSULTING",
-    wordmark: (
-      <div className="flex items-center gap-1.5">
-        <span className="font-sans font-black italic text-2xl tracking-tight">avanade</span>
-      </div>
-    ),
-  },
-  {
-    name: "Onepoint",
-    code: "1PT-009",
-    sector: "CONSULTING",
-    wordmark: (
-      <div className="flex items-center gap-1.5">
-        <span className="w-2 h-2 rounded-full bg-current" />
-        <span className="font-sans font-bold text-xl tracking-tight lowercase">onepoint</span>
-      </div>
-    ),
-  },
-  {
-    name: "Neos-SDI",
-    code: "NEO-010",
-    sector: "CONSULTING",
-    wordmark: (
-      <div className="flex items-baseline gap-1">
-        <span className="font-sans font-black text-2xl italic tracking-tighter">neos</span>
-        <span className="font-mono text-[10px] tracking-widest opacity-70">— SDI</span>
-      </div>
-    ),
-  },
-  {
-    name: "TDF",
-    code: "TDF-011",
-    sector: "TELECOM",
-    wordmark: <span className="font-stencil text-3xl tracking-[0.15em]">TDF</span>,
-  },
-  {
-    name: "Faurecia",
-    code: "FRC-012",
-    sector: "AUTOMOTIVE",
-    wordmark: (
-      <div className="flex items-center gap-1.5">
-        <span className="block w-1 h-5 bg-current" />
-        <span className="font-sans font-bold text-xl tracking-tight">FAURECIA</span>
-      </div>
-    ),
-  },
+  { name: "Crédit Agricole", short: "CA", sector: "BANKING", code: "TGT-001", natoCode: "ALPHA-01", years: "2022-23" },
+  { name: "BNP Paribas", short: "BNP", sector: "BANKING", code: "TGT-002", natoCode: "BRAVO-02", years: "2020-21" },
+  { name: "EDF", short: "EDF", sector: "ENERGY", code: "TGT-003", natoCode: "ECHO-03", years: "2019-20" },
+  { name: "ENGIE", short: "ENGIE", sector: "ENERGY", code: "TGT-004", natoCode: "ECHO-04", years: "2023" },
+  { name: "BMW", short: "BMW", sector: "AUTOMOTIVE", code: "TGT-005", natoCode: "MIKE-05", years: "2021" },
+  { name: "Deloitte", short: "DLT", sector: "CONSULTING", code: "TGT-006", natoCode: "DELTA-06", years: "2024-25" },
+  { name: "NaTran", short: "NTR", sector: "ENERGY", code: "TGT-007", natoCode: "NOVEMBER-07", years: "2025-▶" },
+  { name: "Avanade", short: "AVN", sector: "CONSULTING", code: "TGT-008", natoCode: "ALPHA-08", years: "2023" },
+  { name: "Onepoint", short: "1PT", sector: "CONSULTING", code: "TGT-009", natoCode: "OSCAR-09", years: "2020-22" },
+  { name: "Neos-SDI", short: "NEO", sector: "CONSULTING", code: "TGT-010", natoCode: "NOVEMBER-10", years: "2024-25" },
+  { name: "TDF", short: "TDF", sector: "TELECOM", code: "TGT-011", natoCode: "TANGO-11", years: "2024-25" },
+  { name: "Faurecia", short: "FRC", sector: "AUTOMOTIVE", code: "TGT-012", natoCode: "FOXTROT-12", years: "2015-16" },
 ]
 
 export function ClientsLogos() {
@@ -147,64 +32,116 @@ export function ClientsLogos() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border">
+      {/* Top metrics bar */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border border border-border">
         <div className="bg-card p-4">
           <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
-            {"// TARGETS"}
+            {"// TARGETS ENGAGED"}
           </div>
-          <div className="font-stencil text-2xl text-accent">{clients.length}</div>
+          <div className="font-stencil text-2xl text-accent">{clients.length.toString().padStart(3, "0")}</div>
         </div>
         <div className="bg-card p-4">
           <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
             {"// SECTORS"}
           </div>
-          <div className="font-stencil text-2xl text-accent">5</div>
+          <div className="font-stencil text-2xl text-accent">05</div>
+        </div>
+        <div className="bg-card p-4">
+          <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
+            {"// SUCCESS RATE"}
+          </div>
+          <div className="font-stencil text-2xl text-accent">100%</div>
         </div>
         <div className="bg-card p-4 flex items-center justify-between gap-2">
           <div>
             <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
               {"// STATUS"}
             </div>
-            <div className="font-stencil text-lg text-accent">{t("allies.engagement")}</div>
+            <div className="font-stencil text-base text-accent">{t("allies.engagement")}</div>
           </div>
           <span className="w-2 h-2 bg-accent animate-blink rounded-full" />
         </div>
       </div>
 
-      <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground border-l-2 border-accent/60 pl-3">
-        {t("allies.intro")}
-      </p>
+      {/* Redacted intro line */}
+      <div className="relative border border-border bg-card/60 p-4 overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-40" />
+        <div className="flex items-center gap-3 flex-wrap font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          <span className="bg-foreground/80 text-background px-2 py-0.5">CLASSIFIED</span>
+          <span className="text-accent">►</span>
+          <span>{t("allies.intro")}</span>
+          <span className="ml-auto inline-block bg-foreground/70 h-2.5 w-24" aria-hidden />
+        </div>
+      </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-px bg-border border border-border">
+      {/* Client dossier grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {clients.map((c, i) => (
           <motion.div
             key={c.name}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: (i % 8) * 0.04 }}
+            transition={{ duration: 0.4, delay: (i % 6) * 0.04 }}
             viewport={{ once: true }}
-            className="group relative bg-card hover:bg-secondary/50 transition-colors p-5 min-h-[130px] flex flex-col justify-between"
+            className="group relative bg-card border border-border hover:border-accent/70 transition-colors"
           >
-            <span className="absolute top-1 left-1 w-2.5 h-2.5 border-t border-l border-accent/0 group-hover:border-accent transition-colors" />
-            <span className="absolute top-1 right-1 w-2.5 h-2.5 border-t border-r border-accent/0 group-hover:border-accent transition-colors" />
-            <span className="absolute bottom-1 left-1 w-2.5 h-2.5 border-b border-l border-accent/0 group-hover:border-accent transition-colors" />
-            <span className="absolute bottom-1 right-1 w-2.5 h-2.5 border-b border-r border-accent/0 group-hover:border-accent transition-colors" />
+            {/* Corner brackets */}
+            <span className="absolute top-1 left-1 w-3 h-3 border-t-2 border-l-2 border-accent" />
+            <span className="absolute top-1 right-1 w-3 h-3 border-t-2 border-r-2 border-accent" />
+            <span className="absolute bottom-1 left-1 w-3 h-3 border-b-2 border-l-2 border-accent" />
+            <span className="absolute bottom-1 right-1 w-3 h-3 border-b-2 border-r-2 border-accent" />
 
-            <div className="flex items-center justify-between text-[9px] font-mono uppercase tracking-widest text-muted-foreground mb-3">
-              <span className="flex items-center gap-1.5">
+            {/* Header strip */}
+            <div className="flex items-center justify-between px-3 py-1.5 border-b border-dashed border-border bg-secondary/40">
+              <span className="font-mono text-[9px] uppercase tracking-widest text-accent flex items-center gap-1.5">
                 <span className="w-1 h-1 bg-accent" />
                 {c.code}
               </span>
-              <span>{c.sector}</span>
+              <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+                {c.natoCode}
+              </span>
             </div>
 
-            <div className="flex-1 flex items-center justify-center text-foreground/85 group-hover:text-accent transition-colors">
-              {c.wordmark}
+            {/* Body — stencil shortname + redacted bars */}
+            <div className="p-4">
+              <div className="flex items-baseline gap-3 mb-3">
+                <span className="font-stencil text-3xl tracking-wider text-foreground group-hover:text-accent transition-colors">
+                  {c.short}
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                  {c.sector}
+                </span>
+              </div>
+
+              <div className="space-y-1.5 mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground w-14">UNIT</span>
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-foreground/85">
+                    {c.name}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground w-14">OPS</span>
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-foreground/85">
+                    {c.years}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground w-14">INTEL</span>
+                  <span className="inline-block bg-foreground/70 h-2 w-32" aria-hidden />
+                </div>
+              </div>
             </div>
 
-            <div className="mt-3 pt-2 border-t border-dashed border-border/60 flex items-center justify-between text-[9px] font-mono uppercase tracking-widest text-muted-foreground">
-              <span>{c.name}</span>
-              <span className="text-accent">►</span>
+            {/* Footer stamp */}
+            <div className="flex items-center justify-between px-3 py-1.5 border-t border-dashed border-border bg-secondary/30">
+              <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+                STATUS
+              </span>
+              <span className="font-mono text-[9px] uppercase tracking-widest text-accent flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 bg-accent animate-blink" />
+                NEUTRALIZED
+              </span>
             </div>
           </motion.div>
         ))}

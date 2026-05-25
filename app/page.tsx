@@ -16,6 +16,7 @@ import { SectionHeading } from "@/components/section-heading"
 import { GlassmorphicCard } from "@/components/glassmorphic-card"
 import { ClientsLogos } from "@/components/clients-logos"
 import { LanguageToggle } from "@/components/language-toggle"
+import { AudioController } from "@/components/audio-controller"
 import { useT } from "@/lib/i18n"
 
 export default function Portfolio() {
@@ -23,8 +24,34 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden relative">
+      {/* Layered tactical background */}
       <div className="pointer-events-none fixed inset-0 tactical-grid opacity-60 z-0" />
-      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,rgba(138,154,91,0.08),transparent_60%),radial-gradient(ellipse_at_bottom,rgba(0,0,0,0.6),transparent_70%)]" />
+      <div className="pointer-events-none fixed inset-0 tactical-grid-fine opacity-40 z-0" />
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,rgba(138,154,91,0.10),transparent_60%),radial-gradient(ellipse_at_bottom,rgba(0,0,0,0.75),transparent_70%)]" />
+      {/* Heavy vignette */}
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.55)_100%)]" />
+      {/* Page-wide scanlines */}
+      <div
+        className="pointer-events-none fixed inset-0 z-[1] opacity-30 mix-blend-multiply"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(0deg, rgba(0,0,0,0.35) 0px, rgba(0,0,0,0.35) 1px, transparent 1px, transparent 3px)",
+        }}
+      />
+      {/* CONFIDENTIEL watermark */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center overflow-hidden"
+      >
+        <span className="font-stencil text-[18vw] uppercase tracking-[0.3em] text-accent/[0.04] rotate-[-18deg] whitespace-nowrap select-none">
+          CLASSIFIED
+        </span>
+      </div>
+      {/* Top frame brackets */}
+      <div className="pointer-events-none fixed top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-accent/40 z-[2]" />
+      <div className="pointer-events-none fixed top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-accent/40 z-[2]" />
+      <div className="pointer-events-none fixed bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-accent/40 z-[2]" />
+      <div className="pointer-events-none fixed bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-accent/40 z-[2]" />
 
       <MouseFollower />
       <ScrollProgress />
@@ -41,9 +68,10 @@ export default function Portfolio() {
             <span className="hidden sm:inline">{t("status.dossier")}</span>
             <span className="hidden md:inline">{t("status.clearance")}</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <span className="hidden sm:inline">{t("status.coords")}</span>
             <span>UTC+01:00</span>
+            <AudioController />
             <LanguageToggle />
           </div>
         </div>
