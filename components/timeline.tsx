@@ -2,14 +2,16 @@
 
 import { motion } from "framer-motion"
 import { useMobile } from "@/hooks/use-mobile"
+import { useT } from "@/lib/i18n"
 
-const experiences = [
+const experiencesFr = [
   {
     title: "Expert Power Platform & SharePoint",
     company: "NaTran (ex GRTgaz) — Freelance",
-    period: "05/2025 — Aujourd'hui",
+    period: "05/2025 — ACTIF",
     description:
       "Intégré à l'équipe Collaboration de la DSI. Conception et développement d'applications métier sur SharePoint Online (SPFx, React), PowerApps et Power Automate. Animation d'ateliers, recueil des User Stories, sites modernes, support N3 Microsoft, gouvernance M365 (Teams, OneDrive, Viva).",
+    status: "ACTIVE",
   },
   {
     title: "Expert SharePoint",
@@ -83,57 +85,164 @@ const experiences = [
   },
 ]
 
+const experiencesEn = [
+  {
+    title: "Power Platform & SharePoint Expert",
+    company: "NaTran (ex GRTgaz) — Freelance",
+    period: "05/2025 — ACTIVE",
+    description:
+      "Embedded in the IT Collaboration team. Designing and building business apps on SharePoint Online (SPFx, React), PowerApps and Power Automate. Workshops, User Stories, modern sites, Microsoft N3 support, M365 governance (Teams, OneDrive, Viva).",
+    status: "ACTIVE",
+  },
+  {
+    title: "SharePoint Expert",
+    company: "Conseil Départemental 77 — Neos-SDI",
+    period: "12/2024 — 03/2025",
+    description:
+      "Built a migration kit for on-premise SharePoint 2016 intranets. Ran content structuring workshops, simplified business processes and rolled out governance best practices.",
+  },
+  {
+    title: "Lead Dev SharePoint Online / Power Platform",
+    company: "Deloitte — Neos-SDI",
+    period: "04/2024 — 03/2025",
+    description:
+      "Designed a SharePoint Online app to submit and validate auditor consultations with Power Automate. Technical architecture, dynamic PowerApps forms and step-based permission management.",
+  },
+  {
+    title: "Senior Consultant — DMS",
+    company: "TDF — Neos-SDI",
+    period: "02/2024 — 03/2025",
+    description:
+      "Set up a DMS connected to Oracle Cloud. Structured SharePoint site (metadata, security), PowerApps and Power Automate integration. Scoping workshops, architecture, backlog management and delivery.",
+  },
+  {
+    title: "Power Platform Architect",
+    company: "Crédit Agricole - CAGIP — Avanade",
+    period: "04/2023 — 07/2023",
+    description:
+      "Rolled out Power Platform governance: DLP policies, CoE Starter Kit deployment, and environment cleanup automation via Power Automate.",
+  },
+  {
+    title: "Lead Developer Viva / SPFx",
+    company: "ENGIE — Avanade",
+    period: "03/2023 — 04/2023",
+    description:
+      "Built a Viva Connections Dashboard on the Home Site. Teams configuration, ACE, PowerShell scripts and Active Directory integration.",
+  },
+  {
+    title: "Technical PM SharePoint / O365",
+    company: "Crédit Agricole Assurance — onepoint",
+    period: "06/2022 — 12/2022",
+    description:
+      "Technical leadership on a SharePoint / O365 project: tracking, code review, SPFx development and front/back architecture decisions.",
+  },
+  {
+    title: ".NET Full Stack Developer",
+    company: "BMW — onepoint",
+    period: "03/2021 — 12/2021",
+    description:
+      "BMW maintenance: SVN to Git migration, Jenkins setup, Vue.js front-end and .NET back-end development.",
+  },
+  {
+    title: "Senior SharePoint Consultant",
+    company: "BNP Paribas ITG — onepoint",
+    period: "10/2020 — 02/2021",
+    description:
+      "Set up SharePoint workspaces: audit, structuring, access management and HTML/CSS customization via JSLINK.",
+  },
+  {
+    title: "Senior SharePoint Consultant",
+    company: "EDF — onepoint",
+    period: "10/2019 — 06/2020",
+    description:
+      "EDF maintenance: SharePoint 2013/2016 development, PowerShell scripts, workflows, JavaScript and Angular 5.",
+  },
+  {
+    title: "SharePoint Developer",
+    company: "Faurecia — Client",
+    period: "04/2015 — 10/2016",
+    description:
+      "Migrated WSS 3.0 intranets to SharePoint 2013. SharePoint development and support for the group.",
+  },
+]
+
 export function Timeline() {
   const isMobile = useMobile()
+  const { lang } = useT()
+  const experiences = lang === "en" ? experiencesEn : experiencesFr
 
   return (
     <div
-      className={`space-y-12 relative ${
+      className={`space-y-10 relative ${
         !isMobile
-          ? "before:absolute before:inset-0 before:left-1/2 before:ml-0 before:-translate-x-px before:border-l-2 before:border-slate-800 before:h-full before:z-0"
-          : ""
+          ? "before:absolute before:inset-0 before:left-1/2 before:-translate-x-px before:border-l-2 before:border-dashed before:border-border before:h-full before:z-0"
+          : "before:absolute before:left-3 before:top-0 before:bottom-0 before:border-l-2 before:border-dashed before:border-border"
       }`}
     >
-      {experiences.map((experience, index) => (
-        <div
-          key={index}
-          className={`relative z-10 flex items-center ${index % 2 === 0 ? "md:flex-row-reverse" : "md:flex-row"}`}
-        >
-          <motion.div
-            className={`w-full md:w-1/2 ${index % 2 === 0 ? "md:pl-10" : "md:pr-10"}`}
-            initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
+      {experiences.map((experience, index) => {
+        const opNum = String(experiences.length - index).padStart(2, "0")
+        return (
+          <div
+            key={index}
+            className={`relative z-10 flex items-center ${
+              !isMobile ? (index % 2 === 0 ? "md:flex-row-reverse" : "md:flex-row") : "pl-10"
+            }`}
           >
-            <div className="relative overflow-hidden rounded-xl bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 p-6 transition-all duration-300 hover:border-sky-500/50">
-              <div className="absolute -inset-1 bg-gradient-to-r from-sky-500/10 to-blue-700/10 rounded-xl blur opacity-25 hover:opacity-100 transition duration-1000 hover:duration-200"></div>
+            <motion.div
+              className={`w-full ${!isMobile ? "md:w-1/2 " + (index % 2 === 0 ? "md:pl-10" : "md:pr-10") : ""}`}
+              initial={{ opacity: 0, x: !isMobile ? (index % 2 === 0 ? 50 : -50) : 0, y: isMobile ? 20 : 0 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <div className="relative bg-card border border-border p-5 transition-colors duration-300 hover:border-accent group">
+                {/* corners */}
+                <span className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-accent" />
+                <span className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-accent" />
+                <span className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-accent" />
+                <span className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-accent" />
 
-              <div className="relative">
-                <h3 className="text-xl font-bold">{experience.title}</h3>
-                <div className="text-slate-400 mb-4">
-                  {experience.company} | {experience.period}
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-accent">
+                    OP-{opNum}
+                  </div>
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                    {experience.status === "ACTIVE" && (
+                      <span className="w-1.5 h-1.5 bg-destructive animate-blink rounded-full" />
+                    )}
+                    {experience.period}
+                  </div>
                 </div>
-                <p className="text-slate-300">{experience.description}</p>
+                <h3 className="font-stencil text-lg uppercase tracking-wide leading-tight mb-1">
+                  {experience.title}
+                </h3>
+                <div className="text-xs font-mono uppercase tracking-widest text-accent/80 mb-3">
+                  ► {experience.company}
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">{experience.description}</p>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {!isMobile && (
-            <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center">
-              <motion.div
-                className="w-6 h-6 rounded-full bg-gradient-to-r from-sky-500 to-blue-700 z-10 flex items-center justify-center"
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                transition={{ duration: 0.3 }}
-                viewport={{ once: true }}
-              >
-                <div className="w-2 h-2 rounded-full bg-white"></div>
-              </motion.div>
-            </div>
-          )}
-        </div>
-      ))}
+            {!isMobile ? (
+              <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center">
+                <motion.div
+                  className="w-5 h-5 bg-background border-2 border-accent z-10 flex items-center justify-center rotate-45"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="w-1.5 h-1.5 bg-accent" />
+                </motion.div>
+              </div>
+            ) : (
+              <div className="absolute left-3 -translate-x-1/2 flex items-center justify-center">
+                <div className="w-3 h-3 bg-background border-2 border-accent rotate-45" />
+              </div>
+            )}
+          </div>
+        )
+      })}
     </div>
   )
 }
