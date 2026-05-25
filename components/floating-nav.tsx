@@ -69,7 +69,7 @@ export function FloatingNav() {
           <div className="flex items-center gap-2">
             <LanguageToggle />
             {!isMobile ? (
-              <Link href="https://cv-three-umber.vercel.app/" target="_blank" rel="noopener noreferrer">
+              <Link href="/cv">
                 <Button size="sm" className="h-9 rounded-full px-4 text-sm">
                   <Download className="mr-1.5 h-3.5 w-3.5" />
                   {t("nav.cv")}
@@ -109,9 +109,7 @@ export function FloatingNav() {
               </Link>
             ))}
             <Link
-              href="https://cv-three-umber.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/cv"
               onClick={() => setIsOpen(false)}
               className="mt-6"
             >
