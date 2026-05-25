@@ -7,7 +7,7 @@ export function LanguageToggle({ className = "" }: { className?: string }) {
   const isFr = lang === "fr"
   return (
     <div
-      className={`inline-flex items-stretch border border-border bg-card font-mono text-[10px] uppercase tracking-widest ${className}`}
+      className={`inline-flex items-center rounded-full border border-border bg-background p-0.5 text-xs font-medium ${className}`}
       role="group"
       aria-label="Language"
     >
@@ -15,19 +15,18 @@ export function LanguageToggle({ className = "" }: { className?: string }) {
         type="button"
         onClick={() => setLang("fr")}
         aria-pressed={isFr}
-        className={`px-2.5 py-1.5 transition-colors ${
-          isFr ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:text-accent"
+        className={`rounded-full px-2.5 py-1 transition-colors ${
+          isFr ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
         }`}
       >
         FR
       </button>
-      <span className="w-px bg-border" aria-hidden />
       <button
         type="button"
         onClick={() => setLang("en")}
         aria-pressed={!isFr}
-        className={`px-2.5 py-1.5 transition-colors ${
-          !isFr ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:text-accent"
+        className={`rounded-full px-2.5 py-1 transition-colors ${
+          !isFr ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
         }`}
       >
         EN

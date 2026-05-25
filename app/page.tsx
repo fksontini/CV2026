@@ -1,533 +1,361 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, Linkedin, Mail, Phone, MapPin, Shield, Target, Crosshair, Radio } from "lucide-react"
+import { ArrowRight, Linkedin, Mail, Phone, MapPin, Download, ExternalLink, Check } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { ProjectCard } from "@/components/project-card"
-import { SkillBadge } from "@/components/skill-badge"
 import { Timeline } from "@/components/timeline"
 import { ContactForm } from "@/components/contact-form"
-import { CreativeHero } from "@/components/creative-hero"
 import { FloatingNav } from "@/components/floating-nav"
-import { MouseFollower } from "@/components/mouse-follower"
 import { ScrollProgress } from "@/components/scroll-progress"
 import { SectionHeading } from "@/components/section-heading"
-import { GlassmorphicCard } from "@/components/glassmorphic-card"
 import { ClientsLogos } from "@/components/clients-logos"
 import { LanguageToggle } from "@/components/language-toggle"
-import { AudioController } from "@/components/audio-controller"
 import { useT } from "@/lib/i18n"
 
 export default function Portfolio() {
   const { t } = useT()
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-hidden relative">
-      {/* Layered tactical background */}
-      <div className="pointer-events-none fixed inset-0 tactical-grid opacity-60 z-0" />
-      <div className="pointer-events-none fixed inset-0 tactical-grid-fine opacity-40 z-0" />
-      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,rgba(138,154,91,0.10),transparent_60%),radial-gradient(ellipse_at_bottom,rgba(0,0,0,0.75),transparent_70%)]" />
-      {/* Heavy vignette */}
-      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.55)_100%)]" />
-      {/* Page-wide scanlines */}
-      <div
-        className="pointer-events-none fixed inset-0 z-[1] opacity-30 mix-blend-multiply"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(0deg, rgba(0,0,0,0.35) 0px, rgba(0,0,0,0.35) 1px, transparent 1px, transparent 3px)",
-        }}
-      />
-      {/* CONFIDENTIEL watermark */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center overflow-hidden"
-      >
-        <span className="font-stencil text-[18vw] uppercase tracking-[0.3em] text-accent/[0.04] rotate-[-18deg] whitespace-nowrap select-none">
-          CLASSIFIED
-        </span>
-      </div>
-      {/* Top frame brackets */}
-      <div className="pointer-events-none fixed top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-accent/40 z-[2]" />
-      <div className="pointer-events-none fixed top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-accent/40 z-[2]" />
-      <div className="pointer-events-none fixed bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-accent/40 z-[2]" />
-      <div className="pointer-events-none fixed bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-accent/40 z-[2]" />
-
-      <MouseFollower />
+    <div className="min-h-screen bg-background text-foreground">
       <ScrollProgress />
       <FloatingNav />
 
-      {/* Top status bar */}
-      <div className="relative z-30 border-b border-border bg-background/80 backdrop-blur">
-        <div className="container flex items-center justify-between py-2 text-[10px] font-mono uppercase tracking-widest text-muted-foreground gap-4">
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 bg-accent animate-blink rounded-full" />
-              {t("status.active")}
-            </span>
-            <span className="hidden sm:inline">{t("status.dossier")}</span>
-            <span className="hidden md:inline">{t("status.clearance")}</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="hidden sm:inline">{t("status.coords")}</span>
-            <span>UTC+01:00</span>
-            <AudioController />
-            <LanguageToggle />
-          </div>
-        </div>
-      </div>
-
-      {/* Ticker */}
-      <div className="relative z-20 border-b border-border bg-secondary/40 overflow-hidden">
-        <div className="flex animate-ticker whitespace-nowrap py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-          {Array.from({ length: 2 }).map((_, k) => (
-            <div key={k} className="flex items-center gap-6 px-3">
-              <span className="text-accent">►</span>
-              <span>{t("ticker.years")}</span>
-              <span className="text-accent">●</span>
-              <span>{t("ticker.clients")}</span>
-              <span className="text-accent">●</span>
-              <span>{t("ticker.stack")}</span>
-              <span className="text-accent">●</span>
-              <span>{t("ticker.available")}</span>
-              <span className="text-accent">●</span>
-              <span>{t("ticker.crypto")}</span>
-              <span className="text-accent">●</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Hero Section */}
-      <section className="relative min-h-[calc(100vh-80px)] flex items-center overflow-hidden py-10">
-        <div className="container relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <div className="lg:col-span-7 space-y-7">
-              <div className="flex items-center gap-3 flex-wrap">
-                <div className="inline-flex items-center gap-2 border border-accent/60 bg-accent/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-accent">
-                  <Shield className="h-3 w-3" />
-                  {t("hero.badge")}
-                </div>
-                <div className="inline-flex items-center gap-2 border border-border bg-card px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                  <span className="w-1.5 h-1.5 bg-destructive animate-blink rounded-full" />
-                  {t("hero.matricule")}
-                </div>
-              </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between gap-3 flex-wrap">
-                <div className="font-mono text-xs uppercase tracking-[0.4em] text-muted-foreground">
-                  {t("hero.id")}
-                </div>
-                <div className="inline-flex items-center gap-2 border border-accent bg-accent text-accent-foreground px-2.5 py-1 font-stencil text-[10px] uppercase tracking-[0.25em]">
-                  <Shield className="h-3 w-3" />
-                  {t("hero.rank.short")}
-                </div>
-              </div>
-              <h1 className="font-stencil text-6xl md:text-8xl uppercase leading-[0.9] tracking-wider text-shadow-stencil">
-                <span className="block text-foreground">FIRAS</span>
-                <span className="block text-accent">KSONTINI</span>
-              </h1>
-              <div className="flex items-center gap-3 pt-3">
-                {/* Rank insignia */}
-                <div className="relative shrink-0 border-2 border-accent bg-accent/5 px-3 py-2 flex flex-col items-center justify-center">
-                  <span className="absolute -top-1 -left-1 w-2 h-2 border-t-2 border-l-2 border-accent" />
-                  <span className="absolute -top-1 -right-1 w-2 h-2 border-t-2 border-r-2 border-accent" />
-                  <span className="absolute -bottom-1 -left-1 w-2 h-2 border-b-2 border-l-2 border-accent" />
-                  <span className="absolute -bottom-1 -right-1 w-2 h-2 border-b-2 border-r-2 border-accent" />
-                  <div className="flex gap-0.5 mb-0.5">
-                    <span className="block w-4 h-1 bg-accent" />
-                    <span className="block w-4 h-1 bg-accent" />
-                    <span className="block w-4 h-1 bg-accent" />
-                    <span className="block w-4 h-1 bg-accent" />
-                  </div>
-                  <div className="font-stencil text-[10px] uppercase tracking-[0.2em] text-accent leading-none">
-                    OF-4
-                  </div>
-                  <div className="flex gap-0.5 mt-0.5">
-                    <span className="block w-1 h-1 bg-accent rotate-45" />
-                    <span className="block w-1 h-1 bg-accent rotate-45" />
-                    <span className="block w-1 h-1 bg-accent rotate-45" />
-                  </div>
-                </div>
-                <div className="flex flex-col gap-0.5 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="block w-6 h-px bg-accent" />
-                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                      {t("hero.rank.code")}
-                    </span>
-                  </div>
-                  <div className="font-stencil text-2xl md:text-3xl uppercase tracking-wider text-foreground leading-tight text-shadow-stencil">
-                    {t("hero.rank.short")}
-                  </div>
-                  <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
-                    ► {t("hero.rank.years")}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-border border border-border">
-              <div className="bg-card p-4">
-                <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
-                  {t("hero.stat.exp")}
-                </div>
-                <div className="font-stencil text-2xl text-accent">{t("hero.stat.exp.value")}</div>
-              </div>
-              <div className="bg-card p-4">
-                <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
-                  {t("hero.stat.missions")}
-                </div>
-                <div className="font-stencil text-2xl text-accent">{t("hero.stat.missions.value")}</div>
-              </div>
-              <div className="bg-card p-4">
-                <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
-                  {t("hero.stat.theaters")}
-                </div>
-                <div className="font-stencil text-2xl text-accent">{t("hero.stat.theaters.value")}</div>
-              </div>
-            </div>
-
-            <p className="text-base md:text-lg text-muted-foreground max-w-[640px] leading-relaxed border-l-2 border-accent/60 pl-4">
-              <span className="text-accent font-mono text-xs uppercase tracking-widest block mb-2">
-                {t("hero.briefing")}
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-border">
+        <div className="pointer-events-none absolute inset-0 grid-bg opacity-60" />
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(60% 60% at 50% 0%, hsl(221 83% 53% / 0.06), transparent 70%)",
+          }}
+        />
+        <div className="container relative z-10 pt-32 pb-24 lg:pt-40 lg:pb-32">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
               </span>
-              {t("hero.briefing.body")}
+              {t("status.available")}
+            </div>
+
+            <p className="mt-6 text-sm uppercase tracking-[0.2em] text-muted-foreground">
+              {t("hero.eyebrow")}
             </p>
 
-            <div className="flex flex-wrap gap-3 pt-2">
-              <Link href="#experience">
-                <Button className="h-12 bg-accent hover:bg-accent/90 text-accent-foreground rounded-none font-stencil uppercase tracking-widest px-6 group">
-                  <Target className="mr-2 h-4 w-4" />
-                  {t("hero.cta.ops")}
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <h1 className="mt-6 text-balance font-serif text-5xl leading-[1.05] tracking-tight text-foreground md:text-7xl lg:text-[5.5rem]">
+              {t("hero.title.pre")}{" "}
+              <span className="italic text-accent">{t("hero.title.accent")}</span>{" "}
+              {t("hero.title.post")}
+            </h1>
+
+            <p className="mx-auto mt-8 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
+              {t("hero.subtitle")}
+            </p>
+
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+              <Link href="#projects">
+                <Button size="lg" className="h-12 rounded-full px-6 text-sm font-medium">
+                  {t("hero.cta.work")}
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link href="#contact">
                 <Button
+                  size="lg"
                   variant="outline"
-                  className="h-12 border-accent/60 bg-transparent hover:bg-accent/10 hover:border-accent text-foreground rounded-none font-stencil uppercase tracking-widest px-6"
+                  className="h-12 rounded-full border-border bg-background px-6 text-sm font-medium hover:bg-muted"
                 >
-                  <Radio className="mr-2 h-4 w-4" />
                   {t("hero.cta.contact")}
                 </Button>
               </Link>
             </div>
 
-            <div className="flex gap-2 pt-2">
-              <Link href="https://www.linkedin.com/in/fksontini/" target="_blank" rel="noopener noreferrer">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-none border border-border bg-card hover:bg-secondary hover:border-accent text-muted-foreground hover:text-accent h-10 w-10"
-                >
-                  <Linkedin className="h-4 w-4" />
-                  <span className="sr-only">LinkedIn</span>
-                </Button>
-              </Link>
-              <Link href="mailto:firasksontini@gmail.com">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-none border border-border bg-card hover:bg-secondary hover:border-accent text-muted-foreground hover:text-accent h-10 w-10"
-                >
-                  <Mail className="h-4 w-4" />
-                  <span className="sr-only">Email</span>
-                </Button>
-              </Link>
-              <Link href="tel:+33783887473">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-none border border-border bg-card hover:bg-secondary hover:border-accent text-muted-foreground hover:text-accent h-10 w-10"
-                >
-                  <Phone className="h-4 w-4" />
-                  <span className="sr-only">Phone</span>
-                </Button>
-              </Link>
+            {/* Stats */}
+            <div className="mt-20 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-border bg-border">
+              <Stat value="10+" label={t("hero.stat.experience")} />
+              <Stat value="11" label={t("hero.stat.clients")} />
+              <Stat value="20+" label={t("hero.stat.projects")} />
             </div>
           </div>
-
-          <div className="lg:col-span-5">
-            <CreativeHero />
-          </div>
-        </div>
-
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[10px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
-          <span>{t("hero.scroll")}</span>
-          <div className="w-px h-8 bg-accent/60 animate-pulse" />
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-28 relative">
-        <div className="container relative z-10">
-          <SectionHeading title={t("sec.about.title")} subtitle={t("sec.about.sub")} />
+      {/* About */}
+      <section id="about" className="relative py-24 lg:py-32">
+        <div className="container">
+          <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-5">
+              <SectionHeading eyebrow={t("sec.about.eyebrow")} title={t("sec.about.title")} />
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start mt-14">
-            <div className="space-y-4">
-              <div className="relative bg-card border border-border">
-                <span className="absolute -top-1 -left-1 w-5 h-5 border-t-2 border-l-2 border-accent" />
-                <span className="absolute -top-1 -right-1 w-5 h-5 border-t-2 border-r-2 border-accent" />
-                <span className="absolute -bottom-1 -left-1 w-5 h-5 border-b-2 border-l-2 border-accent" />
-                <span className="absolute -bottom-1 -right-1 w-5 h-5 border-b-2 border-r-2 border-accent" />
+            <div className="lg:col-span-7">
+              <div className="space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+                <p>{t("about.p1")}</p>
+                <p>{t("about.p2")}</p>
+                <p>{t("about.p3")}</p>
+              </div>
 
-                <div className="bg-secondary/60 border-b border-border px-4 py-2 flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-                  <span className="flex items-center gap-2">
-                    <Shield className="h-3 w-3 text-accent" /> {t("id.title")}
+              <div className="mt-10 flex flex-wrap gap-2">
+                {[t("about.role.lead"), t("about.role.arch"), t("about.role.pm")].map((r) => (
+                  <span
+                    key={r}
+                    className="rounded-full border border-border bg-muted px-3 py-1 text-sm text-foreground"
+                  >
+                    {r}
                   </span>
-                  <span>FK-2026</span>
-                </div>
-
-                <div className="grid grid-cols-3 gap-4 p-5">
-                  <div className="col-span-1 relative aspect-square bg-secondary border border-border tactical-grid-fine flex items-center justify-center overflow-hidden">
-                    <div className="absolute inset-0 noise scanlines" />
-                    <div className="font-stencil text-5xl text-accent z-10 text-shadow-stencil">FK</div>
-                    <span className="absolute top-1 left-1 w-2 h-2 border-t border-l border-accent" />
-                    <span className="absolute top-1 right-1 w-2 h-2 border-t border-r border-accent" />
-                    <span className="absolute bottom-1 left-1 w-2 h-2 border-b border-l border-accent" />
-                    <span className="absolute bottom-1 right-1 w-2 h-2 border-b border-r border-accent" />
-                  </div>
-
-                  <div className="col-span-2 space-y-2 text-sm">
-                    <Field label={t("id.field.name")} value="KSONTINI" />
-                    <Field label={t("id.field.first")} value="FIRAS" />
-                    <Field label={t("id.field.grade")} value={t("id.value.grade")} />
-                    <Field label={t("id.field.unit")} value={t("id.value.unit")} />
-                    <Field label={t("id.field.base")} value={t("id.value.base")} />
-                  </div>
-                </div>
-
-                <div className="border-t border-border px-5 py-3 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-green-500 animate-blink rounded-full" />
-                    <span className="font-mono text-[11px] uppercase tracking-widest text-foreground">
-                      {t("id.in.service")}
-                    </span>
-                  </div>
-                  <Crosshair className="h-4 w-4 text-accent" />
-                </div>
+                ))}
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <StatBox label={t("stat.exp")} value="10+" sub={t("stat.exp.sub")} />
-                <StatBox label={t("stat.accounts")} value="11" sub={t("stat.accounts.sub")} />
-                <StatBox label={t("stat.stack")} value="M365" sub={t("stat.stack.sub")} />
-                <StatBox label={t("stat.lang")} value="FR/EN" sub={t("stat.lang.sub")} />
+              <dl className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3">
+                <InfoCell label={t("about.based")} value={t("about.location")} />
+                <InfoCell label={t("about.languages")} value={t("about.languages.value")} />
+                <InfoCell label={t("about.availability")} value={t("about.availability.value")} />
+              </dl>
+
+              <div className="mt-10 flex flex-wrap gap-3">
+                <Link href="https://cv-three-umber.vercel.app/" target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" className="h-11 rounded-full border-border">
+                    <Download className="mr-2 h-4 w-4" />
+                    {t("nav.cv")}
+                  </Button>
+                </Link>
+                <Link
+                  href="https://www.linkedin.com/in/fksontini/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button variant="ghost" className="h-11 rounded-full">
+                    <Linkedin className="mr-2 h-4 w-4" />
+                    LinkedIn
+                    <ExternalLink className="ml-2 h-3.5 w-3.5 opacity-60" />
+                  </Button>
+                </Link>
               </div>
-            </div>
-
-            <div className="space-y-6">
-              <GlassmorphicCard>
-                <div className="space-y-4 text-[15px] leading-relaxed text-muted-foreground">
-                  <p>
-                    <span className="text-accent font-mono text-xs uppercase tracking-widest block mb-1">
-                      {t("about.mission")}
-                    </span>
-                    {t("about.mission.body")}
-                  </p>
-                  <p>
-                    <span className="text-accent font-mono text-xs uppercase tracking-widest block mb-1">
-                      {t("about.scope")}
-                    </span>
-                    {t("about.scope.body")}
-                  </p>
-                  <p>
-                    <span className="text-accent font-mono text-xs uppercase tracking-widest block mb-1">
-                      {t("about.positions")}
-                    </span>
-                    {t("about.positions.body")}
-                  </p>
-                </div>
-
-                <div className="mt-6 pt-5 border-t border-dashed border-border/60 flex items-center justify-between gap-3 flex-wrap">
-                  <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                    {t("about.cv")}
-                  </div>
-                  <Link href="https://cv-three-umber.vercel.app/" target="_blank" rel="noopener noreferrer">
-                    <Button className="h-10 bg-accent hover:bg-accent/90 text-accent-foreground rounded-none font-stencil uppercase tracking-widest text-xs">
-                      {t("about.cv.btn")}
-                    </Button>
-                  </Link>
-                </div>
-              </GlassmorphicCard>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Allied Forces / Clients */}
-      <section id="allies" className="py-28 relative">
-        <div className="container relative z-10">
-          <SectionHeading title={t("sec.allies.title")} subtitle={t("sec.allies.sub")} />
-          <div className="mt-14">
+      {/* Clients */}
+      <section id="clients" className="relative border-t border-border bg-muted/40 py-24 lg:py-32">
+        <div className="container">
+          <SectionHeading
+            eyebrow={t("sec.clients.eyebrow")}
+            title={t("sec.clients.title")}
+            subtitle={t("sec.clients.subtitle")}
+          />
+          <div className="mt-16">
             <ClientsLogos />
           </div>
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section id="skills" className="py-28 relative">
-        <div className="container relative z-10">
-          <SectionHeading title={t("sec.skills.title")} subtitle={t("sec.skills.sub")} />
+      {/* Skills */}
+      <section id="skills" className="relative border-t border-border py-24 lg:py-32">
+        <div className="container">
+          <SectionHeading
+            eyebrow={t("sec.skills.eyebrow")}
+            title={t("sec.skills.title")}
+            subtitle={t("sec.skills.subtitle")}
+          />
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-14">
-            <SkillBadge name="SharePoint Online" level={95} />
-            <SkillBadge name="SharePoint On-Premise" level={90} />
-            <SkillBadge name="Power Platform" level={92} />
-            <SkillBadge name="PowerApps" level={90} />
-            <SkillBadge name="Power Automate" level={92} />
-            <SkillBadge name="Power BI" level={75} />
-            <SkillBadge name="SPFx" level={88} />
-            <SkillBadge name="React" level={80} />
-            <SkillBadge name="TypeScript" level={78} />
-            <SkillBadge name="PnP / PowerShell" level={88} />
-            <SkillBadge name=".NET / .NET Core" level={80} />
-            <SkillBadge name="Microsoft Teams & Viva" level={85} />
-            <SkillBadge name="Azure" level={70} />
-            <SkillBadge name="Gouvernance M365" level={90} />
-            <SkillBadge name="Agile / Scrum" level={85} />
-            <SkillBadge name="Avant-vente" level={85} />
+          <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+            <SkillCategory
+              title={t("skills.cat.platform")}
+              skills={[
+                "SharePoint Online",
+                "SharePoint On-Premise",
+                "Microsoft Teams & Viva",
+                "Power Platform",
+                "PowerApps",
+                "Power Automate",
+                "Power BI",
+                "Azure",
+              ]}
+            />
+            <SkillCategory
+              title={t("skills.cat.dev")}
+              skills={[
+                "SPFx",
+                "React",
+                "TypeScript",
+                ".NET / .NET Core",
+                "PnP / PowerShell",
+                "REST / Graph API",
+              ]}
+            />
+            <SkillCategory
+              title={t("skills.cat.governance")}
+              skills={[
+                "Gouvernance M365",
+                "DLP & Sécurité",
+                "CoE Starter Kit",
+                "Avant-vente",
+                "Agile / Scrum",
+                "Conduite du changement",
+              ]}
+            />
           </div>
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section id="projects" className="py-28 relative">
-        <div className="container relative z-10">
-          <SectionHeading title={t("sec.projects.title")} subtitle={t("sec.projects.sub")} />
+      {/* Projects */}
+      <section
+        id="projects"
+        className="relative border-t border-border bg-muted/40 py-24 lg:py-32"
+      >
+        <div className="container">
+          <SectionHeading
+            eyebrow={t("sec.projects.eyebrow")}
+            title={t("sec.projects.title")}
+            subtitle={t("sec.projects.subtitle")}
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-14">
+          <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <ProjectCard
-              codename="OP-7421"
-              title="NaTran — Digital Workplace M365"
+              client="NaTran"
+              title="Digital Workplace Microsoft 365"
               description="Conception et développement d'applications métier sur SharePoint Online (SPFx/React), PowerApps et Power Automate. Animation d'ateliers, support N3 et gouvernance M365."
               tags={["SharePoint Online", "SPFx", "React", "Power Platform"]}
-              threatLevel="HIGH"
-              duration="2025+"
+              role="Expert M365"
+              duration="2025 — En cours"
             />
             <ProjectCard
-              codename="OP-5198"
-              title="Deloitte — App Consultations Auditeurs"
-              description="Application SharePoint Online pour la soumission et validation de consultations, avec workflows Power Automate et formulaires PowerApps dynamiques."
+              client="Deloitte"
+              title="Application Consultations Auditeurs"
+              description="Application SharePoint Online pour la soumission et la validation de consultations, avec workflows Power Automate et formulaires PowerApps dynamiques."
               tags={["SharePoint Online", "PowerApps", "Power Automate"]}
-              threatLevel="HIGH"
+              role="Lead Dev"
               duration="12 mois"
             />
             <ProjectCard
-              codename="OP-3340"
-              title="TDF — GED Oracle Cloud"
+              client="TDF"
+              title="GED Oracle Cloud"
               description="Mise en place d'une GED connectée à Oracle Cloud, site SharePoint structuré (métadonnées, sécurité), intégration PowerApps et Power Automate."
               tags={["GED", "SharePoint", "Power Platform", "Oracle"]}
-              threatLevel="MEDIUM"
+              role="Consultant Senior"
               duration="14 mois"
             />
             <ProjectCard
-              codename="OP-2087"
-              title="Crédit Agricole CAGIP — Gouvernance Power Platform"
+              client="Crédit Agricole CAGIP"
+              title="Gouvernance Power Platform"
               description="Mise en œuvre des politiques DLP, déploiement du CoE Starter Kit et automatisation du nettoyage de l'environnement via Power Automate."
               tags={["Power Platform", "CoE Kit", "DLP", "Governance"]}
-              threatLevel="CRITICAL"
+              role="Architecte"
               duration="4 mois"
             />
             <ProjectCard
-              codename="OP-1903"
-              title="ENGIE — Viva Connections Dashboard"
-              description="Développement d'un Dashboard Viva Connections sur le Home Site, configuration Teams, ACE et scripts PowerShell pour l'intégration AD."
+              client="ENGIE"
+              title="Viva Connections Dashboard"
+              description="Développement d'un Dashboard Viva Connections sur le Home Site, configuration Teams, ACE et scripts PowerShell pour l'intégration Active Directory."
               tags={["Viva", "SPFx", "Teams", "PowerShell"]}
-              threatLevel="MEDIUM"
+              role="Lead Developer"
               duration="2 mois"
             />
             <ProjectCard
-              codename="OP-1645"
-              title="CD 77 — Kit de migration SharePoint"
+              client="CD 77"
+              title="Kit de migration SharePoint"
               description="Développement d'un kit de migration pour les intranets SharePoint on-premise 2016, animation d'ateliers et bonnes pratiques de gouvernance."
               tags={["SharePoint On-Premise", "PnP", "Migration"]}
-              threatLevel="HIGH"
+              role="Expert SharePoint"
               duration="4 mois"
             />
           </div>
         </div>
       </section>
 
-      {/* Experience Section */}
-      <section id="experience" className="py-28 relative">
-        <div className="container relative z-10">
-          <SectionHeading title={t("sec.exp.title")} subtitle={t("sec.exp.sub")} />
-
-          <div className="mt-14">
+      {/* Experience */}
+      <section id="experience" className="relative border-t border-border py-24 lg:py-32">
+        <div className="container">
+          <SectionHeading
+            eyebrow={t("sec.exp.eyebrow")}
+            title={t("sec.exp.title")}
+            subtitle={t("sec.exp.subtitle")}
+          />
+          <div className="mt-16">
             <Timeline />
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-28 relative">
-        <div className="container relative z-10">
-          <SectionHeading title={t("sec.contact.title")} subtitle={t("sec.contact.sub")} />
+      {/* Contact */}
+      <section
+        id="contact"
+        className="relative border-t border-border bg-muted/40 py-24 lg:py-32"
+      >
+        <div className="container">
+          <SectionHeading
+            eyebrow={t("sec.contact.eyebrow")}
+            title={t("sec.contact.title")}
+            subtitle={t("sec.contact.subtitle")}
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start mt-14">
-            <GlassmorphicCard>
-              <h3 className="font-stencil text-2xl uppercase tracking-wide mb-1">{t("contact.coords")}</h3>
-              <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-6">
-                {t("contact.channels")}
-              </p>
-
+          <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-5">
+            <div className="lg:col-span-2">
               <div className="space-y-3">
-                <ContactRow icon={<Mail className="h-4 w-4 text-accent" />} label={t("contact.email")} value="firasksontini@gmail.com" />
-                <ContactRow icon={<Phone className="h-4 w-4 text-accent" />} label={t("contact.phone")} value="+33 (0)7 83 88 74 73" />
-                <ContactRow icon={<Linkedin className="h-4 w-4 text-accent" />} label={t("contact.linkedin")} value="linkedin.com/in/fksontini" />
-                <ContactRow icon={<MapPin className="h-4 w-4 text-accent" />} label={t("contact.base")} value="Issy-les-Moulineaux, France" />
+                <ContactRow
+                  icon={<Mail className="h-4 w-4" />}
+                  label={t("contact.email")}
+                  value="firasksontini@gmail.com"
+                  href="mailto:firasksontini@gmail.com"
+                />
+                <ContactRow
+                  icon={<Phone className="h-4 w-4" />}
+                  label={t("contact.phone")}
+                  value="+33 (0)7 83 88 74 73"
+                  href="tel:+33783887473"
+                />
+                <ContactRow
+                  icon={<Linkedin className="h-4 w-4" />}
+                  label={t("contact.linkedin")}
+                  value="linkedin.com/in/fksontini"
+                  href="https://www.linkedin.com/in/fksontini/"
+                />
+                <ContactRow
+                  icon={<MapPin className="h-4 w-4" />}
+                  label={t("contact.location")}
+                  value="Issy-les-Moulineaux, France"
+                />
               </div>
 
-              <div className="mt-6 pt-5 border-t border-dashed border-border/60">
-                <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
-                  {t("contact.status")}
+              <div className="mt-6 rounded-2xl border border-border bg-background p-5">
+                <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                  <Check className="h-4 w-4 text-emerald-600" />
+                  {t("status.available")}
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-500 animate-blink rounded-full" />
-                  <span className="text-sm">{t("contact.status.body")}</span>
-                </div>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {t("about.availability.value")}
+                </p>
               </div>
-            </GlassmorphicCard>
+            </div>
 
-            <ContactForm />
+            <div className="lg:col-span-3">
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t-2 border-border bg-secondary/30 py-8 relative z-10">
-        <div className="container flex flex-col md:flex-row justify-between items-center gap-4">
+      <footer className="border-t border-border py-10">
+        <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex items-center gap-3">
-            <Link href="/" className="font-stencil text-lg uppercase tracking-widest">
-              <span className="text-accent">FIRAS</span>
-              <span className="text-muted-foreground mx-1">//</span>
-              <span className="text-foreground">KSONTINI</span>
+            <Link href="/" className="font-serif text-lg text-foreground">
+              Firas Ksontini
             </Link>
-            <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground hidden md:inline">
-              {t("footer.rights")}
+            <span className="hidden text-sm text-muted-foreground md:inline">
+              · {t("footer.tagline")}
             </span>
           </div>
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-            {t("footer.copy", { year: new Date().getFullYear() })}
-          </p>
-          <div className="flex gap-2">
-            {[
-              { href: "https://www.linkedin.com/in/fksontini/", icon: <Linkedin className="h-4 w-4" />, label: "LinkedIn" },
-              { href: "mailto:firasksontini@gmail.com", icon: <Mail className="h-4 w-4" />, label: "Email" },
-              { href: "tel:+33783887473", icon: <Phone className="h-4 w-4" />, label: "Phone" },
-            ].map((s) => (
-              <Link key={s.label} href={s.href} target="_blank" rel="noopener noreferrer">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-none border border-border bg-card hover:bg-secondary hover:border-accent text-muted-foreground hover:text-accent h-9 w-9"
-                >
-                  {s.icon}
-                  <span className="sr-only">{s.label}</span>
-                </Button>
-              </Link>
-            ))}
+          <div className="flex items-center gap-4">
+            <p className="text-sm text-muted-foreground">
+              {t("footer.copy", { year: new Date().getFullYear() })}
+            </p>
+            <LanguageToggle />
           </div>
         </div>
       </footer>
@@ -535,25 +363,38 @@ export default function Portfolio() {
   )
 }
 
-function Field({ label, value }: { label: string; value: string }) {
+function Stat({ value, label }: { value: string; label: string }) {
   return (
-    <div className="flex items-baseline gap-2 border-b border-dashed border-border/60 pb-1">
-      <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground w-16 shrink-0">
+    <div className="bg-background p-6 text-left md:p-8">
+      <div className="font-serif text-4xl text-foreground md:text-5xl">{value}</div>
+      <div className="mt-2 text-xs uppercase tracking-[0.18em] text-muted-foreground md:text-sm">
         {label}
-      </span>
-      <span className="font-stencil text-sm uppercase tracking-wide text-foreground truncate">{value}</span>
+      </div>
     </div>
   )
 }
 
-function StatBox({ label, value, sub }: { label: string; value: string; sub: string }) {
+function InfoCell({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-card border border-border p-4 relative">
-      <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent" />
-      <span className="absolute top-0 right-0 w-2 h-2 border-t border-r border-accent" />
-      <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{label}</div>
-      <div className="font-stencil text-xl text-accent">{value}</div>
-      <div className="font-mono text-[10px] text-muted-foreground mt-0.5">{sub}</div>
+    <div className="bg-background p-5">
+      <dt className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{label}</dt>
+      <dd className="mt-1.5 text-sm font-medium text-foreground">{value}</dd>
+    </div>
+  )
+}
+
+function SkillCategory({ title, skills }: { title: string; skills: string[] }) {
+  return (
+    <div className="rounded-2xl border border-border bg-background p-6 transition-colors hover:border-foreground/20">
+      <h3 className="text-base font-semibold text-foreground">{title}</h3>
+      <ul className="mt-5 space-y-3">
+        {skills.map((s) => (
+          <li key={s} className="flex items-center gap-3 text-sm text-muted-foreground">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            {s}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
@@ -562,18 +403,33 @@ function ContactRow({
   icon,
   label,
   value,
+  href,
 }: {
   icon: React.ReactNode
   label: string
   value: string
+  href?: string
 }) {
-  return (
-    <div className="flex items-center gap-3 border border-border bg-secondary/30 p-3 hover:border-accent transition-colors">
-      <div className="w-10 h-10 bg-card border border-border flex items-center justify-center shrink-0">{icon}</div>
-      <div className="min-w-0 flex-1">
-        <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
-        <div className="font-medium text-sm break-all">{value}</div>
+  const content = (
+    <div className="group flex items-center gap-4 rounded-2xl border border-border bg-background p-4 transition-colors hover:border-foreground/20">
+      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-foreground">
+        {icon}
       </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{label}</div>
+        <div className="truncate text-sm font-medium text-foreground">{value}</div>
+      </div>
+      {href && (
+        <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
+      )}
     </div>
   )
+  if (href) {
+    return (
+      <Link href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer">
+        {content}
+      </Link>
+    )
+  }
+  return content
 }

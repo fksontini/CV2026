@@ -1,31 +1,26 @@
 import type { Metadata } from "next"
-import { JetBrains_Mono, Oswald, Black_Ops_One } from "next/font/google"
+import { Inter, Instrument_Serif } from "next/font/google"
 import "./globals.css"
 import { LanguageProvider } from "@/lib/i18n"
 
-const mono = JetBrains_Mono({
+const sans = Inter({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-sans",
   display: "swap",
 })
 
-const oswald = Oswald({
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-})
-
-const stencil = Black_Ops_One({
+const serif = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
-  variable: "--font-stencil",
+  style: ["normal", "italic"],
+  variable: "--font-serif",
   display: "swap",
 })
 
 export const metadata: Metadata = {
-  title: "DOSSIER FK-2026 // F. KSONTINI — Opérateur Sénior M365 / SharePoint / Power Platform",
+  title: "Firas Ksontini — Consultant Senior Microsoft 365 & Power Platform",
   description:
-    "Fiche opérationnelle de Firas KSONTINI — Consultant Sénior M365, SharePoint et Power Platform. +10 ans de missions critiques en Digital Workplace.",
+    "Consultant senior Microsoft 365, SharePoint et Power Platform. +10 ans au service de grands comptes (Crédit Agricole, BNP Paribas, EDF, ENGIE, BMW, Deloitte, NaTran). Architecte Digital Workplace.",
   generator: "v0.dev",
 }
 
@@ -35,10 +30,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="fr"
-      className={`${mono.variable} ${oswald.variable} ${stencil.variable} bg-background dark`}
-    >
+    <html lang="fr" className={`${sans.variable} ${serif.variable} bg-background`}>
       <body className="antialiased">
         <LanguageProvider>{children}</LanguageProvider>
       </body>
