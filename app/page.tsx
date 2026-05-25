@@ -35,7 +35,6 @@ export default function Portfolio() {
                 <span className="relative z-10 text-slate-200">Consultant Sénior — M365 / SharePoint / Power Platform</span>
               </div>
             </div>
-            </div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
               <span className="block">Bonjour, je suis</span>
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-300 to-blue-500">
