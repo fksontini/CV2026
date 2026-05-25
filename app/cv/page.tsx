@@ -12,6 +12,7 @@ import {
   educationEn,
   skillsAll,
 } from "@/lib/experiences"
+import { CompanyLogo } from "@/components/company-logo"
 
 export default function CVPage() {
   const { lang, t } = useT()
@@ -108,16 +109,21 @@ export default function CVPage() {
                   key={i}
                   className="break-inside-avoid border-l-2 border-neutral-200 pl-4"
                 >
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5">
-                    <h3 className="text-[14px] font-semibold text-neutral-900">
-                      {exp.title}
-                    </h3>
-                    <span className="text-[12px] font-medium uppercase tracking-wide text-neutral-500">
-                      {exp.period}
-                    </span>
-                  </div>
-                  <div className="text-[13px] font-medium text-neutral-700">
-                    {exp.company}
+                  <div className="flex items-start gap-3">
+                    <CompanyLogo company={exp.company} size={32} rounded="md" />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5">
+                        <h3 className="text-[14px] font-semibold text-neutral-900">
+                          {exp.title}
+                        </h3>
+                        <span className="text-[12px] font-medium uppercase tracking-wide text-neutral-500">
+                          {exp.period}
+                        </span>
+                      </div>
+                      <div className="text-[13px] font-medium text-neutral-700">
+                        {exp.company}
+                      </div>
+                    </div>
                   </div>
                   <p className="mt-1.5 text-[12.5px] leading-relaxed text-neutral-600">
                     {exp.description}
@@ -183,9 +189,15 @@ export default function CVPage() {
           html,
           body {
             background: #fff !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
           }
           .cv-doc {
             font-size: 11.5px;
+          }
+          .cv-doc img {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
           }
         }
       `}</style>

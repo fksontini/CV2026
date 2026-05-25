@@ -7,6 +7,7 @@ import { useMobile } from "@/hooks/use-mobile"
 import { useT } from "@/lib/i18n"
 import { experiencesFr, experiencesEn } from "@/lib/experiences"
 import { Button } from "@/components/ui/button"
+import { CompanyLogo } from "@/components/company-logo"
 
 const INITIAL_COUNT = 8
 
@@ -57,21 +58,26 @@ export function Timeline() {
             </span>
 
             <div className="rounded-2xl border border-border bg-background p-5 transition-colors hover:border-foreground/20">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="font-serif text-xl text-foreground">{exp.title}</h3>
-                {exp.active && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                    {t("exp.current")}
-                  </span>
-                )}
-              </div>
-              <div className="mt-1 text-sm font-medium text-accent">{exp.company}</div>
-              {isMobile && (
-                <div className="mt-1 text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  {exp.period}
+              <div className="flex items-start gap-4">
+                <CompanyLogo company={exp.company} size={44} />
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <h3 className="font-serif text-xl text-foreground">{exp.title}</h3>
+                    {exp.active && (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                        {t("exp.current")}
+                      </span>
+                    )}
+                  </div>
+                  <div className="mt-1 text-sm font-medium text-accent">{exp.company}</div>
+                  {isMobile && (
+                    <div className="mt-1 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                      {exp.period}
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{exp.description}</p>
               {exp.tags && exp.tags.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-1.5">
