@@ -102,30 +102,67 @@ export default function Portfolio() {
       <section className="relative min-h-[calc(100vh-80px)] flex items-center overflow-hidden py-10">
         <div className="container relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-7 space-y-7">
-            <div className="flex items-center gap-3 flex-wrap">
-              <div className="inline-flex items-center gap-2 border border-accent/60 bg-accent/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-accent">
-                <Shield className="h-3 w-3" />
-                {t("hero.badge")}
+              <div className="flex items-center gap-3 flex-wrap">
+                <div className="inline-flex items-center gap-2 border border-accent/60 bg-accent/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-accent">
+                  <Shield className="h-3 w-3" />
+                  {t("hero.badge")}
+                </div>
+                <div className="inline-flex items-center gap-2 border border-border bg-card px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                  <span className="w-1.5 h-1.5 bg-destructive animate-blink rounded-full" />
+                  {t("hero.matricule")}
+                </div>
               </div>
-              <div className="inline-flex items-center gap-2 border border-border bg-card px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                <span className="w-1.5 h-1.5 bg-destructive animate-blink rounded-full" />
-                {t("hero.matricule")}
-              </div>
-            </div>
 
             <div className="space-y-2">
-              <div className="font-mono text-xs uppercase tracking-[0.4em] text-muted-foreground">
-                {t("hero.id")}
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <div className="font-mono text-xs uppercase tracking-[0.4em] text-muted-foreground">
+                  {t("hero.id")}
+                </div>
+                <div className="inline-flex items-center gap-2 border border-accent bg-accent text-accent-foreground px-2.5 py-1 font-stencil text-[10px] uppercase tracking-[0.25em]">
+                  <Shield className="h-3 w-3" />
+                  {t("hero.rank.short")}
+                </div>
               </div>
               <h1 className="font-stencil text-6xl md:text-8xl uppercase leading-[0.9] tracking-wider text-shadow-stencil">
                 <span className="block text-foreground">FIRAS</span>
                 <span className="block text-accent">KSONTINI</span>
               </h1>
-              <div className="flex items-center gap-3 pt-1">
-                <span className="block w-12 h-px bg-accent" />
-                <span className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                  {t("hero.rank")}
-                </span>
+              <div className="flex items-center gap-3 pt-3">
+                {/* Rank insignia */}
+                <div className="relative shrink-0 border-2 border-accent bg-accent/5 px-3 py-2 flex flex-col items-center justify-center">
+                  <span className="absolute -top-1 -left-1 w-2 h-2 border-t-2 border-l-2 border-accent" />
+                  <span className="absolute -top-1 -right-1 w-2 h-2 border-t-2 border-r-2 border-accent" />
+                  <span className="absolute -bottom-1 -left-1 w-2 h-2 border-b-2 border-l-2 border-accent" />
+                  <span className="absolute -bottom-1 -right-1 w-2 h-2 border-b-2 border-r-2 border-accent" />
+                  <div className="flex gap-0.5 mb-0.5">
+                    <span className="block w-4 h-1 bg-accent" />
+                    <span className="block w-4 h-1 bg-accent" />
+                    <span className="block w-4 h-1 bg-accent" />
+                    <span className="block w-4 h-1 bg-accent" />
+                  </div>
+                  <div className="font-stencil text-[10px] uppercase tracking-[0.2em] text-accent leading-none">
+                    OF-4
+                  </div>
+                  <div className="flex gap-0.5 mt-0.5">
+                    <span className="block w-1 h-1 bg-accent rotate-45" />
+                    <span className="block w-1 h-1 bg-accent rotate-45" />
+                    <span className="block w-1 h-1 bg-accent rotate-45" />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-0.5 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="block w-6 h-px bg-accent" />
+                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                      {t("hero.rank.code")}
+                    </span>
+                  </div>
+                  <div className="font-stencil text-2xl md:text-3xl uppercase tracking-wider text-foreground leading-tight text-shadow-stencil">
+                    {t("hero.rank.short")}
+                  </div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+                    ► {t("hero.rank.years")}
+                  </div>
+                </div>
               </div>
             </div>
 
