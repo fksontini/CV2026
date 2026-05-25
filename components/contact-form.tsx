@@ -21,15 +21,41 @@ export function ContactForm() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    await new Promise((resolve) => setTimeout(resolve, 1200))
+    const form = e.currentTarget
+    const formData = new FormData(form)
+    const payload = {
+      name: String(formData.get("name") || ""),
+      email: String(formData.get("email") || ""),
+      subject: String(formData.get("subject") || ""),
+      message: String(formData.get("message") || ""),
+    }
 
-    toast({
-      title: t("contact.toast.title"),
-      description: t("contact.toast.desc"),
-    })
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
 
-    setIsSubmitting(false)
-    e.currentTarget.reset()
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data.error || "Erreur lors de l'envoi.")
+      }
+
+      toast({
+        title: t("contact.toast.title"),
+        description: t("contact.toast.desc"),
+      })
+      form.reset()
+    } catch (err) {
+      toast({
+        title: "Erreur",
+        description: err instanceof Error ? err.message : "Impossible d'envoyer le message.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -44,6 +70,7 @@ export function ContactForm() {
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Field label={t("contact.form.name")}>
             <Input
+              name="name"
               required
               placeholder={t("contact.form.name.ph")}
               className="h-11 rounded-lg border-border bg-background"
@@ -51,6 +78,7 @@ export function ContactForm() {
           </Field>
           <Field label={t("contact.form.email")}>
             <Input
+              name="email"
               type="email"
               required
               placeholder={t("contact.form.email.ph")}
@@ -61,6 +89,7 @@ export function ContactForm() {
 
         <Field label={t("contact.form.subject")}>
           <Input
+            name="subject"
             required
             placeholder={t("contact.form.subject.ph")}
             className="h-11 rounded-lg border-border bg-background"
@@ -69,6 +98,7 @@ export function ContactForm() {
 
         <Field label={t("contact.form.message")}>
           <Textarea
+            name="message"
             required
             rows={6}
             placeholder={t("contact.form.message.ph")}
