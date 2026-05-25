@@ -125,18 +125,18 @@ export async function POST(request: Request) {
     }
 
     const { data, error } = await resend.emails.send({
-      from: "Portfolio <contact@ksontini.fr>",
+      from: "Formulaire site web <contact@ksontini.fr>",
       to: ["firasksontini@gmail.com"],
-      cc: ["firas@ksontini.fr"],
+      cc: ["firas@ksontini.fr", email],
       replyTo: email,
-      subject: `[Portfolio] ${subject}`,
+      subject: `[Formulaire site web] ${subject}`,
       attachments: attachments.length
         ? attachments.map((a) => ({ filename: a.filename, content: a.content }))
         : undefined,
       html: `
         <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#f9fafb;">
           <div style="background:#fff;border-radius:12px;padding:32px;box-shadow:0 1px 3px rgba(0,0,0,.1);">
-            <h2 style="color:#111827;margin:0 0 24px;font-size:20px;">Nouveau message depuis le portfolio</h2>
+            <h2 style="color:#111827;margin:0 0 24px;font-size:20px;">Nouveau message depuis le formulaire du site web</h2>
             <table style="width:100%;border-collapse:collapse;">
               <tr><td style="padding:8px 0;color:#6b7280;font-size:14px;width:110px;">De :</td><td style="padding:8px 0;color:#111827;font-size:14px;"><strong>${escapeHtml(name)}</strong></td></tr>
               <tr><td style="padding:8px 0;color:#6b7280;font-size:14px;">Email :</td><td style="padding:8px 0;color:#111827;font-size:14px;"><a href="mailto:${escapeHtml(email)}" style="color:#2563eb;">${escapeHtml(email)}</a></td></tr>
@@ -146,10 +146,10 @@ export async function POST(request: Request) {
             <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;" />
             <div style="color:#374151;font-size:15px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(message)}</div>
           </div>
-          <p style="color:#9ca3af;font-size:12px;text-align:center;margin-top:16px;">Envoyé depuis votre portfolio</p>
+          <p style="color:#9ca3af;font-size:12px;text-align:center;margin-top:16px;">Envoyé depuis le formulaire de votre site web</p>
         </div>
       `,
-      text: `Nouveau message depuis le portfolio\n\nDe : ${name}\nEmail : ${email}\nSujet : ${subject}\n${attachments.length ? `Pièces jointes : ${attachments.map((a) => a.filename).join(", ")}\n` : ""}\n${message}`,
+      text: `Nouveau message depuis le formulaire du site web\n\nDe : ${name}\nEmail : ${email}\nSujet : ${subject}\n${attachments.length ? `Pièces jointes : ${attachments.map((a) => a.filename).join(", ")}\n` : ""}\n${message}`,
     })
 
     if (error) {
