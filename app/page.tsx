@@ -117,7 +117,7 @@ export default function Portfolio() {
               </dl>
 
               <div className="mt-10 flex flex-wrap gap-3">
-                <Link href="https://cv-three-umber.vercel.app/" target="_blank" rel="noopener noreferrer">
+                <Link href="/cv">
                   <Button variant="outline" className="h-11 rounded-full border-border">
                     <Download className="mr-2 h-4 w-4" />
                     {t("nav.cv")}
