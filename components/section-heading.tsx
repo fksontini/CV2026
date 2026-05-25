@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useT } from "@/lib/i18n"
 
 interface SectionHeadingProps {
   title: string
@@ -8,6 +9,7 @@ interface SectionHeadingProps {
 }
 
 export function SectionHeading({ title, subtitle }: SectionHeadingProps) {
+  const { t } = useT()
   return (
     <div className="text-center space-y-4">
       <motion.div
@@ -41,7 +43,7 @@ export function SectionHeading({ title, subtitle }: SectionHeadingProps) {
         viewport={{ once: true }}
       >
         <span className="text-accent">[</span>
-        <span>SECTION CLASSIFIÉE — NIVEAU 3</span>
+        <span>{t("sec.classified")}</span>
         <span className="text-accent">]</span>
       </motion.div>
     </div>

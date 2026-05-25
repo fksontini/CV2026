@@ -1,24 +1,22 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
-import { ArrowUpRight, FileText } from "lucide-react"
+import { FileText, Crosshair } from "lucide-react"
 import { motion } from "framer-motion"
-
-import { Button } from "@/components/ui/button"
+import { useT } from "@/lib/i18n"
 
 interface ProjectCardProps {
   title: string
   description: string
   tags: string[]
-  image: string
-  demoUrl: string
-  repoUrl: string
   codename?: string
+  threatLevel?: string
+  duration?: string
 }
 
-export function ProjectCard({ title, description, tags, demoUrl, repoUrl, codename }: ProjectCardProps) {
+export function ProjectCard({ title, description, tags, codename, threatLevel = "MEDIUM", duration }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const { t } = useT()
   const opCode = codename ?? `OP-${Math.floor(Math.random() * 9000 + 1000)}`
 
   return (
@@ -34,13 +32,11 @@ export function ProjectCard({ title, description, tags, demoUrl, repoUrl, codena
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* corner brackets */}
         <span className="absolute top-1 left-1 w-3 h-3 border-t-2 border-l-2 border-accent/0 group-hover:border-accent transition-colors" />
         <span className="absolute top-1 right-1 w-3 h-3 border-t-2 border-r-2 border-accent/0 group-hover:border-accent transition-colors" />
         <span className="absolute bottom-1 left-1 w-3 h-3 border-b-2 border-l-2 border-accent/0 group-hover:border-accent transition-colors" />
         <span className="absolute bottom-1 right-1 w-3 h-3 border-b-2 border-r-2 border-accent/0 group-hover:border-accent transition-colors" />
 
-        {/* dossier header */}
         <div className="relative h-44 border-b border-border bg-secondary/40 tactical-grid overflow-hidden">
           <div className="absolute inset-0 noise scanlines" />
           <div className="absolute top-2 left-2 right-2 flex justify-between items-center text-[10px] font-mono uppercase tracking-widest text-muted-foreground z-10">
@@ -57,12 +53,11 @@ export function ProjectCard({ title, description, tags, demoUrl, repoUrl, codena
                 {opCode}
               </div>
               <div className="font-mono text-[10px] text-muted-foreground mt-1 tracking-widest">
-                MISSION DOSSIER
+                {t("projects.dossier")}
               </div>
             </div>
           </div>
 
-          {/* crosshair on hover */}
           <div
             className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"}`}
           >
@@ -73,9 +68,8 @@ export function ProjectCard({ title, description, tags, demoUrl, repoUrl, codena
             </div>
           </div>
 
-          {/* CLASSIFIED stamp */}
           <div className="absolute top-3 right-3 z-20 stamp text-destructive font-stencil text-xs">
-            CLASSIFIED
+            {t("projects.classified")}
           </div>
         </div>
 
@@ -97,26 +91,22 @@ export function ProjectCard({ title, description, tags, demoUrl, repoUrl, codena
             ))}
           </div>
 
-          <div className="flex justify-between items-center mt-auto pt-3 border-t border-dashed border-border/60">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 text-[10px] uppercase tracking-widest text-muted-foreground hover:text-accent hover:bg-transparent font-mono px-0"
-              asChild
-            >
-              <Link href={repoUrl} target="_blank" rel="noopener noreferrer">
-                {"// SOURCE"}
-              </Link>
-            </Button>
-            <Button
-              size="sm"
-              className="h-8 text-[10px] uppercase tracking-widest font-mono bg-primary hover:bg-primary/80 text-primary-foreground border border-accent/40"
-              asChild
-            >
-              <Link href={demoUrl} target="_blank" rel="noopener noreferrer">
-                ENGAGE <ArrowUpRight className="ml-1 h-3 w-3" />
-              </Link>
-            </Button>
+          <div className="mt-auto pt-3 border-t border-dashed border-border/60 grid grid-cols-3 gap-2 text-[10px] font-mono uppercase tracking-widest">
+            <div>
+              <div className="text-muted-foreground">{t("projects.threat")}</div>
+              <div className="text-accent flex items-center gap-1">
+                <Crosshair className="h-3 w-3" />
+                {threatLevel}
+              </div>
+            </div>
+            <div>
+              <div className="text-muted-foreground">{t("projects.duration")}</div>
+              <div className="text-foreground">{duration ?? "—"}</div>
+            </div>
+            <div>
+              <div className="text-muted-foreground">{t("projects.outcome")}</div>
+              <div className="text-accent">{t("projects.outcome.value")}</div>
+            </div>
           </div>
         </div>
       </div>

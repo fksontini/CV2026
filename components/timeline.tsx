@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion"
 import { useMobile } from "@/hooks/use-mobile"
+import { useT } from "@/lib/i18n"
 
-const experiences = [
+const experiencesFr = [
   {
     title: "Expert Power Platform & SharePoint",
     company: "NaTran (ex GRTgaz) — Freelance",
@@ -84,8 +85,91 @@ const experiences = [
   },
 ]
 
+const experiencesEn = [
+  {
+    title: "Power Platform & SharePoint Expert",
+    company: "NaTran (ex GRTgaz) — Freelance",
+    period: "05/2025 — ACTIVE",
+    description:
+      "Embedded in the IT Collaboration team. Designing and building business apps on SharePoint Online (SPFx, React), PowerApps and Power Automate. Workshops, User Stories, modern sites, Microsoft N3 support, M365 governance (Teams, OneDrive, Viva).",
+    status: "ACTIVE",
+  },
+  {
+    title: "SharePoint Expert",
+    company: "Conseil Départemental 77 — Neos-SDI",
+    period: "12/2024 — 03/2025",
+    description:
+      "Built a migration kit for on-premise SharePoint 2016 intranets. Ran content structuring workshops, simplified business processes and rolled out governance best practices.",
+  },
+  {
+    title: "Lead Dev SharePoint Online / Power Platform",
+    company: "Deloitte — Neos-SDI",
+    period: "04/2024 — 03/2025",
+    description:
+      "Designed a SharePoint Online app to submit and validate auditor consultations with Power Automate. Technical architecture, dynamic PowerApps forms and step-based permission management.",
+  },
+  {
+    title: "Senior Consultant — DMS",
+    company: "TDF — Neos-SDI",
+    period: "02/2024 — 03/2025",
+    description:
+      "Set up a DMS connected to Oracle Cloud. Structured SharePoint site (metadata, security), PowerApps and Power Automate integration. Scoping workshops, architecture, backlog management and delivery.",
+  },
+  {
+    title: "Power Platform Architect",
+    company: "Crédit Agricole - CAGIP — Avanade",
+    period: "04/2023 — 07/2023",
+    description:
+      "Rolled out Power Platform governance: DLP policies, CoE Starter Kit deployment, and environment cleanup automation via Power Automate.",
+  },
+  {
+    title: "Lead Developer Viva / SPFx",
+    company: "ENGIE — Avanade",
+    period: "03/2023 — 04/2023",
+    description:
+      "Built a Viva Connections Dashboard on the Home Site. Teams configuration, ACE, PowerShell scripts and Active Directory integration.",
+  },
+  {
+    title: "Technical PM SharePoint / O365",
+    company: "Crédit Agricole Assurance — onepoint",
+    period: "06/2022 — 12/2022",
+    description:
+      "Technical leadership on a SharePoint / O365 project: tracking, code review, SPFx development and front/back architecture decisions.",
+  },
+  {
+    title: ".NET Full Stack Developer",
+    company: "BMW — onepoint",
+    period: "03/2021 — 12/2021",
+    description:
+      "BMW maintenance: SVN to Git migration, Jenkins setup, Vue.js front-end and .NET back-end development.",
+  },
+  {
+    title: "Senior SharePoint Consultant",
+    company: "BNP Paribas ITG — onepoint",
+    period: "10/2020 — 02/2021",
+    description:
+      "Set up SharePoint workspaces: audit, structuring, access management and HTML/CSS customization via JSLINK.",
+  },
+  {
+    title: "Senior SharePoint Consultant",
+    company: "EDF — onepoint",
+    period: "10/2019 — 06/2020",
+    description:
+      "EDF maintenance: SharePoint 2013/2016 development, PowerShell scripts, workflows, JavaScript and Angular 5.",
+  },
+  {
+    title: "SharePoint Developer",
+    company: "Faurecia — Client",
+    period: "04/2015 — 10/2016",
+    description:
+      "Migrated WSS 3.0 intranets to SharePoint 2013. SharePoint development and support for the group.",
+  },
+]
+
 export function Timeline() {
   const isMobile = useMobile()
+  const { lang } = useT()
+  const experiences = lang === "en" ? experiencesEn : experiencesFr
 
   return (
     <div

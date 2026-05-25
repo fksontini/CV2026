@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { JetBrains_Mono, Oswald, Black_Ops_One } from "next/font/google"
 import "./globals.css"
+import { LanguageProvider } from "@/lib/i18n"
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
@@ -38,7 +39,9 @@ export default function RootLayout({
       lang="fr"
       className={`${mono.variable} ${oswald.variable} ${stencil.variable} bg-background dark`}
     >
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   )
 }

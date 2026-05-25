@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { ArrowRight, Linkedin, Mail, Phone, MapPin, Shield, Target, Crosshair, Radio } from "lucide-react"
 
@@ -12,11 +14,15 @@ import { MouseFollower } from "@/components/mouse-follower"
 import { ScrollProgress } from "@/components/scroll-progress"
 import { SectionHeading } from "@/components/section-heading"
 import { GlassmorphicCard } from "@/components/glassmorphic-card"
+import { ClientsLogos } from "@/components/clients-logos"
+import { LanguageToggle } from "@/components/language-toggle"
+import { useT } from "@/lib/i18n"
 
 export default function Portfolio() {
+  const { t } = useT()
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden relative">
-      {/* Global tactical grid backdrop */}
       <div className="pointer-events-none fixed inset-0 tactical-grid opacity-60 z-0" />
       <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,rgba(138,154,91,0.08),transparent_60%),radial-gradient(ellipse_at_bottom,rgba(0,0,0,0.6),transparent_70%)]" />
 
@@ -30,14 +36,15 @@ export default function Portfolio() {
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 bg-accent animate-blink rounded-full" />
-              SYSTÈME ACTIF
+              {t("status.active")}
             </span>
-            <span className="hidden sm:inline">DOSSIER FK-2026</span>
-            <span className="hidden md:inline">CLEARANCE: NIVEAU 3</span>
+            <span className="hidden sm:inline">{t("status.dossier")}</span>
+            <span className="hidden md:inline">{t("status.clearance")}</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="hidden sm:inline">48.823°N 02.270°E</span>
+            <span className="hidden sm:inline">{t("status.coords")}</span>
             <span>UTC+01:00</span>
+            <LanguageToggle />
           </div>
         </div>
       </div>
@@ -48,15 +55,15 @@ export default function Portfolio() {
           {Array.from({ length: 2 }).map((_, k) => (
             <div key={k} className="flex items-center gap-6 px-3">
               <span className="text-accent">►</span>
-              <span>+10 ANS DE SERVICE OPÉRATIONNEL</span>
+              <span>{t("ticker.years")}</span>
               <span className="text-accent">●</span>
-              <span>CRÉDIT AGRICOLE / BNP PARIBAS / EDF / ENGIE / BMW / DELOITTE / NATRAN</span>
+              <span>{t("ticker.clients")}</span>
               <span className="text-accent">●</span>
-              <span>MICROSOFT 365 — SHAREPOINT — POWER PLATFORM</span>
+              <span>{t("ticker.stack")}</span>
               <span className="text-accent">●</span>
-              <span>STATUT : DISPONIBLE POUR NOUVELLES MISSIONS</span>
+              <span>{t("ticker.available")}</span>
               <span className="text-accent">●</span>
-              <span>CHIFFREMENT TRANSMISSION : AES-256</span>
+              <span>{t("ticker.crypto")}</span>
               <span className="text-accent">●</span>
             </div>
           ))}
@@ -70,17 +77,17 @@ export default function Portfolio() {
             <div className="flex items-center gap-3 flex-wrap">
               <div className="inline-flex items-center gap-2 border border-accent/60 bg-accent/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-accent">
                 <Shield className="h-3 w-3" />
-                DOSSIER OPÉRATIONNEL // CONFIDENTIEL
+                {t("hero.badge")}
               </div>
               <div className="inline-flex items-center gap-2 border border-border bg-card px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 <span className="w-1.5 h-1.5 bg-destructive animate-blink rounded-full" />
-                MATRICULE FK-2026
+                {t("hero.matricule")}
               </div>
             </div>
 
             <div className="space-y-2">
               <div className="font-mono text-xs uppercase tracking-[0.4em] text-muted-foreground">
-                {"// IDENTIFICATION DU SUJET"}
+                {t("hero.id")}
               </div>
               <h1 className="font-stencil text-6xl md:text-8xl uppercase leading-[0.9] tracking-wider text-shadow-stencil">
                 <span className="block text-foreground">FIRAS</span>
@@ -89,7 +96,7 @@ export default function Portfolio() {
               <div className="flex items-center gap-3 pt-1">
                 <span className="block w-12 h-px bg-accent" />
                 <span className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                  RANG : CONSULTANT SÉNIOR — SPÉCIALISTE M365
+                  {t("hero.rank")}
                 </span>
               </div>
             </div>
@@ -97,39 +104,36 @@ export default function Portfolio() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-border border border-border">
               <div className="bg-card p-4">
                 <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
-                  ANCIENNETÉ
+                  {t("hero.stat.exp")}
                 </div>
-                <div className="font-stencil text-2xl text-accent">10+ ANS</div>
+                <div className="font-stencil text-2xl text-accent">{t("hero.stat.exp.value")}</div>
               </div>
               <div className="bg-card p-4">
                 <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
-                  MISSIONS
+                  {t("hero.stat.missions")}
                 </div>
-                <div className="font-stencil text-2xl text-accent">11 OPS</div>
+                <div className="font-stencil text-2xl text-accent">{t("hero.stat.missions.value")}</div>
               </div>
               <div className="bg-card p-4">
                 <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
-                  THÉÂTRES
+                  {t("hero.stat.theaters")}
                 </div>
-                <div className="font-stencil text-2xl text-accent">ENTREPRISE</div>
+                <div className="font-stencil text-2xl text-accent">{t("hero.stat.theaters.value")}</div>
               </div>
             </div>
 
             <p className="text-base md:text-lg text-muted-foreground max-w-[640px] leading-relaxed border-l-2 border-accent/60 pl-4">
               <span className="text-accent font-mono text-xs uppercase tracking-widest block mb-2">
-                {"// BRIEFING"}
+                {t("hero.briefing")}
               </span>
-              Opérateur sénior déployé sur l&apos;écosystème <span className="text-foreground">Microsoft 365</span>,{" "}
-              <span className="text-foreground">SharePoint</span> et{" "}
-              <span className="text-foreground">Power Platform</span>. Spécialisé en gestion de projet technique,
-              avant-vente et architecture Digital Workplace pour cibles stratégiques.
+              {t("hero.briefing.body")}
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">
               <Link href="#experience">
                 <Button className="h-12 bg-accent hover:bg-accent/90 text-accent-foreground rounded-none font-stencil uppercase tracking-widest px-6 group">
                   <Target className="mr-2 h-4 w-4" />
-                  Voir les opérations
+                  {t("hero.cta.ops")}
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
@@ -139,7 +143,7 @@ export default function Portfolio() {
                   className="h-12 border-accent/60 bg-transparent hover:bg-accent/10 hover:border-accent text-foreground rounded-none font-stencil uppercase tracking-widest px-6"
                 >
                   <Radio className="mr-2 h-4 w-4" />
-                  Établir contact
+                  {t("hero.cta.contact")}
                 </Button>
               </Link>
             </div>
@@ -172,7 +176,7 @@ export default function Portfolio() {
                   className="rounded-none border border-border bg-card hover:bg-secondary hover:border-accent text-muted-foreground hover:text-accent h-10 w-10"
                 >
                   <Phone className="h-4 w-4" />
-                  <span className="sr-only">Téléphone</span>
+                  <span className="sr-only">Phone</span>
                 </Button>
               </Link>
             </div>
@@ -184,7 +188,7 @@ export default function Portfolio() {
         </div>
 
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[10px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
-          <span>► DÉPLOYER LE DOSSIER</span>
+          <span>{t("hero.scroll")}</span>
           <div className="w-px h-8 bg-accent/60 animate-pulse" />
         </div>
       </section>
@@ -192,11 +196,10 @@ export default function Portfolio() {
       {/* About Section */}
       <section id="about" className="py-28 relative">
         <div className="container relative z-10">
-          <SectionHeading title="DOSSIER" subtitle="01 // PROFIL OPÉRATEUR" />
+          <SectionHeading title={t("sec.about.title")} subtitle={t("sec.about.sub")} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start mt-14">
             <div className="space-y-4">
-              {/* ID card */}
               <div className="relative bg-card border border-border">
                 <span className="absolute -top-1 -left-1 w-5 h-5 border-t-2 border-l-2 border-accent" />
                 <span className="absolute -top-1 -right-1 w-5 h-5 border-t-2 border-r-2 border-accent" />
@@ -205,7 +208,7 @@ export default function Portfolio() {
 
                 <div className="bg-secondary/60 border-b border-border px-4 py-2 flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
                   <span className="flex items-center gap-2">
-                    <Shield className="h-3 w-3 text-accent" /> CARTE D&apos;IDENTITÉ
+                    <Shield className="h-3 w-3 text-accent" /> {t("id.title")}
                   </span>
                   <span>FK-2026</span>
                 </div>
@@ -221,11 +224,11 @@ export default function Portfolio() {
                   </div>
 
                   <div className="col-span-2 space-y-2 text-sm">
-                    <Field label="NOM" value="KSONTINI" />
-                    <Field label="PRÉNOM" value="FIRAS" />
-                    <Field label="GRADE" value="CONSULTANT SÉNIOR" />
-                    <Field label="UNITÉ" value="DIGITAL WORKPLACE" />
-                    <Field label="BASE" value="ISSY-LES-MOULINEAUX, FR" />
+                    <Field label={t("id.field.name")} value="KSONTINI" />
+                    <Field label={t("id.field.first")} value="FIRAS" />
+                    <Field label={t("id.field.grade")} value={t("id.value.grade")} />
+                    <Field label={t("id.field.unit")} value={t("id.value.unit")} />
+                    <Field label={t("id.field.base")} value={t("id.value.base")} />
                   </div>
                 </div>
 
@@ -233,19 +236,18 @@ export default function Portfolio() {
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 bg-green-500 animate-blink rounded-full" />
                     <span className="font-mono text-[11px] uppercase tracking-widest text-foreground">
-                      EN SERVICE — DISPONIBLE
+                      {t("id.in.service")}
                     </span>
                   </div>
                   <Crosshair className="h-4 w-4 text-accent" />
                 </div>
               </div>
 
-              {/* Quick stats */}
               <div className="grid grid-cols-2 gap-3">
-                <StatBox label="EXP. MISSION" value="10+" sub="ans déployés" />
-                <StatBox label="GRANDS COMPTES" value="11" sub="références" />
-                <StatBox label="STACK PRIMARY" value="M365" sub="SP / Power" />
-                <StatBox label="LANGUES" value="FR/EN" sub="opérationnel" />
+                <StatBox label={t("stat.exp")} value="10+" sub={t("stat.exp.sub")} />
+                <StatBox label={t("stat.accounts")} value="11" sub={t("stat.accounts.sub")} />
+                <StatBox label={t("stat.stack")} value="M365" sub={t("stat.stack.sub")} />
+                <StatBox label={t("stat.lang")} value="FR/EN" sub={t("stat.lang.sub")} />
               </div>
             </div>
 
@@ -254,35 +256,31 @@ export default function Portfolio() {
                 <div className="space-y-4 text-[15px] leading-relaxed text-muted-foreground">
                   <p>
                     <span className="text-accent font-mono text-xs uppercase tracking-widest block mb-1">
-                      {"// MISSION ACTUELLE"}
+                      {t("about.mission")}
                     </span>
-                    Expert M365, SharePoint et Power Platform — j&apos;accompagne depuis plus de dix ans des grands
-                    comptes (<span className="text-foreground">Crédit Agricole, BNP Paribas, EDF, ENGIE, BMW, Deloitte, NaTran</span>)
-                    dans la conception et la mise en œuvre de leur Digital Workplace.
+                    {t("about.mission.body")}
                   </p>
                   <p>
                     <span className="text-accent font-mono text-xs uppercase tracking-widest block mb-1">
-                      {"// PÉRIMÈTRE OPÉRATIONNEL"}
+                      {t("about.scope")}
                     </span>
-                    Couverture du cycle complet : avant-vente et chiffrage, ateliers de cadrage, architecture technique,
-                    développement (SPFx / React, PowerApps, Power Automate, .NET), gouvernance et accompagnement au changement.
+                    {t("about.scope.body")}
                   </p>
                   <p>
                     <span className="text-accent font-mono text-xs uppercase tracking-widest block mb-1">
-                      {"// POSITIONS"}
+                      {t("about.positions")}
                     </span>
-                    Lead Tech, Architecte ou Chef de projet — interface directe avec les métiers et la DSI pour livrer des
-                    solutions robustes, gouvernées et adoptées sur le terrain.
+                    {t("about.positions.body")}
                   </p>
                 </div>
 
                 <div className="mt-6 pt-5 border-t border-dashed border-border/60 flex items-center justify-between gap-3 flex-wrap">
                   <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                    {"// DOCUMENT.PDF — DOSSIER COMPLET DE L'OPÉRATEUR"}
+                    {t("about.cv")}
                   </div>
                   <Link href="https://cv-three-umber.vercel.app/" target="_blank" rel="noopener noreferrer">
                     <Button className="h-10 bg-accent hover:bg-accent/90 text-accent-foreground rounded-none font-stencil uppercase tracking-widest text-xs">
-                      ► CV COMPLET
+                      {t("about.cv.btn")}
                     </Button>
                   </Link>
                 </div>
@@ -292,10 +290,20 @@ export default function Portfolio() {
         </div>
       </section>
 
+      {/* Allied Forces / Clients */}
+      <section id="allies" className="py-28 relative">
+        <div className="container relative z-10">
+          <SectionHeading title={t("sec.allies.title")} subtitle={t("sec.allies.sub")} />
+          <div className="mt-14">
+            <ClientsLogos />
+          </div>
+        </div>
+      </section>
+
       {/* Skills Section */}
       <section id="skills" className="py-28 relative">
         <div className="container relative z-10">
-          <SectionHeading title="ARSENAL" subtitle="02 // ÉQUIPEMENT TECHNIQUE" />
+          <SectionHeading title={t("sec.skills.title")} subtitle={t("sec.skills.sub")} />
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-14">
             <SkillBadge name="SharePoint Online" level={95} />
@@ -321,7 +329,7 @@ export default function Portfolio() {
       {/* Projects Section */}
       <section id="projects" className="py-28 relative">
         <div className="container relative z-10">
-          <SectionHeading title="OPÉRATIONS" subtitle="03 // MISSIONS DÉCLASSIFIÉES" />
+          <SectionHeading title={t("sec.projects.title")} subtitle={t("sec.projects.sub")} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-14">
             <ProjectCard
@@ -329,54 +337,48 @@ export default function Portfolio() {
               title="NaTran — Digital Workplace M365"
               description="Conception et développement d'applications métier sur SharePoint Online (SPFx/React), PowerApps et Power Automate. Animation d'ateliers, support N3 et gouvernance M365."
               tags={["SharePoint Online", "SPFx", "React", "Power Platform"]}
-              image="/placeholder.svg?height=400&width=600"
-              demoUrl="https://cv-three-umber.vercel.app/"
-              repoUrl="https://www.linkedin.com/in/fksontini/"
+              threatLevel="HIGH"
+              duration="2025+"
             />
             <ProjectCard
               codename="OP-5198"
               title="Deloitte — App Consultations Auditeurs"
               description="Application SharePoint Online pour la soumission et validation de consultations, avec workflows Power Automate et formulaires PowerApps dynamiques."
               tags={["SharePoint Online", "PowerApps", "Power Automate"]}
-              image="/placeholder.svg?height=400&width=600"
-              demoUrl="https://cv-three-umber.vercel.app/"
-              repoUrl="https://www.linkedin.com/in/fksontini/"
+              threatLevel="HIGH"
+              duration="12 mois"
             />
             <ProjectCard
               codename="OP-3340"
               title="TDF — GED Oracle Cloud"
               description="Mise en place d'une GED connectée à Oracle Cloud, site SharePoint structuré (métadonnées, sécurité), intégration PowerApps et Power Automate."
               tags={["GED", "SharePoint", "Power Platform", "Oracle"]}
-              image="/placeholder.svg?height=400&width=600"
-              demoUrl="https://cv-three-umber.vercel.app/"
-              repoUrl="https://www.linkedin.com/in/fksontini/"
+              threatLevel="MEDIUM"
+              duration="14 mois"
             />
             <ProjectCard
               codename="OP-2087"
               title="Crédit Agricole CAGIP — Gouvernance Power Platform"
               description="Mise en œuvre des politiques DLP, déploiement du CoE Starter Kit et automatisation du nettoyage de l'environnement via Power Automate."
               tags={["Power Platform", "CoE Kit", "DLP", "Governance"]}
-              image="/placeholder.svg?height=400&width=600"
-              demoUrl="https://cv-three-umber.vercel.app/"
-              repoUrl="https://www.linkedin.com/in/fksontini/"
+              threatLevel="CRITICAL"
+              duration="4 mois"
             />
             <ProjectCard
               codename="OP-1903"
               title="ENGIE — Viva Connections Dashboard"
               description="Développement d'un Dashboard Viva Connections sur le Home Site, configuration Teams, ACE et scripts PowerShell pour l'intégration AD."
               tags={["Viva", "SPFx", "Teams", "PowerShell"]}
-              image="/placeholder.svg?height=400&width=600"
-              demoUrl="https://cv-three-umber.vercel.app/"
-              repoUrl="https://www.linkedin.com/in/fksontini/"
+              threatLevel="MEDIUM"
+              duration="2 mois"
             />
             <ProjectCard
               codename="OP-1645"
               title="CD 77 — Kit de migration SharePoint"
               description="Développement d'un kit de migration pour les intranets SharePoint on-premise 2016, animation d'ateliers et bonnes pratiques de gouvernance."
               tags={["SharePoint On-Premise", "PnP", "Migration"]}
-              image="/placeholder.svg?height=400&width=600"
-              demoUrl="https://cv-three-umber.vercel.app/"
-              repoUrl="https://www.linkedin.com/in/fksontini/"
+              threatLevel="HIGH"
+              duration="4 mois"
             />
           </div>
         </div>
@@ -385,7 +387,7 @@ export default function Portfolio() {
       {/* Experience Section */}
       <section id="experience" className="py-28 relative">
         <div className="container relative z-10">
-          <SectionHeading title="CARRIÈRE" subtitle="04 // CHRONOLOGIE DES DÉPLOIEMENTS" />
+          <SectionHeading title={t("sec.exp.title")} subtitle={t("sec.exp.sub")} />
 
           <div className="mt-14">
             <Timeline />
@@ -396,29 +398,29 @@ export default function Portfolio() {
       {/* Contact Section */}
       <section id="contact" className="py-28 relative">
         <div className="container relative z-10">
-          <SectionHeading title="CONTACT" subtitle="05 // ÉTABLIR UNE TRANSMISSION" />
+          <SectionHeading title={t("sec.contact.title")} subtitle={t("sec.contact.sub")} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start mt-14">
             <GlassmorphicCard>
-              <h3 className="font-stencil text-2xl uppercase tracking-wide mb-1">► Coordonnées</h3>
+              <h3 className="font-stencil text-2xl uppercase tracking-wide mb-1">{t("contact.coords")}</h3>
               <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-6">
-                Canaux de communication autorisés
+                {t("contact.channels")}
               </p>
 
               <div className="space-y-3">
-                <ContactRow icon={<Mail className="h-4 w-4 text-accent" />} label="EMAIL" value="firasksontini@gmail.com" />
-                <ContactRow icon={<Phone className="h-4 w-4 text-accent" />} label="TÉLÉPHONE" value="+33 (0)7 83 88 74 73" />
-                <ContactRow icon={<Linkedin className="h-4 w-4 text-accent" />} label="LINKEDIN" value="linkedin.com/in/fksontini" />
-                <ContactRow icon={<MapPin className="h-4 w-4 text-accent" />} label="BASE" value="Issy-les-Moulineaux, France" />
+                <ContactRow icon={<Mail className="h-4 w-4 text-accent" />} label={t("contact.email")} value="firasksontini@gmail.com" />
+                <ContactRow icon={<Phone className="h-4 w-4 text-accent" />} label={t("contact.phone")} value="+33 (0)7 83 88 74 73" />
+                <ContactRow icon={<Linkedin className="h-4 w-4 text-accent" />} label={t("contact.linkedin")} value="linkedin.com/in/fksontini" />
+                <ContactRow icon={<MapPin className="h-4 w-4 text-accent" />} label={t("contact.base")} value="Issy-les-Moulineaux, France" />
               </div>
 
               <div className="mt-6 pt-5 border-t border-dashed border-border/60">
                 <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
-                  {"// STATUT OPÉRATIONNEL"}
+                  {t("contact.status")}
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-green-500 animate-blink rounded-full" />
-                  <span className="text-sm">Disponible — missions freelance et opportunités long terme</span>
+                  <span className="text-sm">{t("contact.status.body")}</span>
                 </div>
               </div>
             </GlassmorphicCard>
@@ -438,17 +440,17 @@ export default function Portfolio() {
               <span className="text-foreground">KSONTINI</span>
             </Link>
             <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground hidden md:inline">
-              FK-2026 // ALL RIGHTS RESERVED
+              {t("footer.rights")}
             </span>
           </div>
           <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-            ► © {new Date().getFullYear()} — DOSSIER CHIFFRÉ — UTILISATION RÉGLEMENTÉE
+            {t("footer.copy", { year: new Date().getFullYear() })}
           </p>
           <div className="flex gap-2">
             {[
               { href: "https://www.linkedin.com/in/fksontini/", icon: <Linkedin className="h-4 w-4" />, label: "LinkedIn" },
               { href: "mailto:firasksontini@gmail.com", icon: <Mail className="h-4 w-4" />, label: "Email" },
-              { href: "tel:+33783887473", icon: <Phone className="h-4 w-4" />, label: "Téléphone" },
+              { href: "tel:+33783887473", icon: <Phone className="h-4 w-4" />, label: "Phone" },
             ].map((s) => (
               <Link key={s.label} href={s.href} target="_blank" rel="noopener noreferrer">
                 <Button

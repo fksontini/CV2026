@@ -10,9 +10,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
+import { useT } from "@/lib/i18n"
 
 export function ContactForm() {
   const { toast } = useToast()
+  const { t } = useT()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,8 +24,8 @@ export function ContactForm() {
     await new Promise((resolve) => setTimeout(resolve, 1500))
 
     toast({
-      title: "TRANSMISSION CHIFFRÉE ENVOYÉE",
-      description: "Message reçu sur le canal sécurisé. Réponse sous 24h.",
+      title: t("contact.toast.title"),
+      description: t("contact.toast.desc"),
     })
 
     setIsSubmitting(false)
@@ -46,55 +48,55 @@ export function ContactForm() {
         <div className="bg-secondary/60 border-b border-border px-4 py-2 flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
           <span className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 bg-destructive animate-blink rounded-full" />
-            CANAL CHIFFRÉ // AES-256
+            {t("contact.form.channel")}
           </span>
           <span>FREQ.443.92</span>
         </div>
 
         <div className="p-6">
-          <h3 className="font-stencil text-2xl uppercase tracking-wide mb-1">► Transmission</h3>
+          <h3 className="font-stencil text-2xl uppercase tracking-wide mb-1">{t("contact.form.title")}</h3>
           <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-6">
-            Établir le contact — voie sécurisée
+            {t("contact.form.sub")}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
               <label className="block text-[10px] font-mono uppercase tracking-widest text-accent">
-                {"// IDENTIFIANT_OPÉRATEUR"}
+                {t("contact.form.id")}
               </label>
               <Input
-                placeholder="Votre nom"
+                placeholder={t("contact.form.id.ph")}
                 required
                 className="bg-background border-border focus:border-accent rounded-none font-mono"
               />
             </div>
             <div className="space-y-1.5">
               <label className="block text-[10px] font-mono uppercase tracking-widest text-accent">
-                {"// CANAL_RETOUR"}
+                {t("contact.form.return")}
               </label>
               <Input
                 type="email"
-                placeholder="vous@exemple.com"
+                placeholder={t("contact.form.return.ph")}
                 required
                 className="bg-background border-border focus:border-accent rounded-none font-mono"
               />
             </div>
             <div className="space-y-1.5">
               <label className="block text-[10px] font-mono uppercase tracking-widest text-accent">
-                {"// OBJET_MISSION"}
+                {t("contact.form.subject")}
               </label>
               <Input
-                placeholder="Sujet"
+                placeholder={t("contact.form.subject.ph")}
                 required
                 className="bg-background border-border focus:border-accent rounded-none font-mono"
               />
             </div>
             <div className="space-y-1.5">
               <label className="block text-[10px] font-mono uppercase tracking-widest text-accent">
-                {"// CONTENU_TRANSMISSION"}
+                {t("contact.form.body")}
               </label>
               <Textarea
-                placeholder="Détails de la mission..."
+                placeholder={t("contact.form.body.ph")}
                 rows={5}
                 required
                 className="bg-background border-border focus:border-accent rounded-none font-mono resize-none"
@@ -106,10 +108,10 @@ export function ContactForm() {
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                <>► CHIFFREMENT EN COURS...</>
+                <>{t("contact.form.submitting")}</>
               ) : (
                 <>
-                  ► ENVOYER LA TRANSMISSION <Send className="ml-2 h-4 w-4" />
+                  {t("contact.form.submit")} <Send className="ml-2 h-4 w-4" />
                 </>
               )}
             </Button>
