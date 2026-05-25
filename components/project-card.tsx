@@ -1,115 +1,67 @@
 "use client"
 
-import { useState } from "react"
-import { FileText, Crosshair } from "lucide-react"
 import { motion } from "framer-motion"
+import { ArrowUpRight } from "lucide-react"
 import { useT } from "@/lib/i18n"
 
 interface ProjectCardProps {
   title: string
   description: string
   tags: string[]
-  codename?: string
-  threatLevel?: string
+  client?: string
+  role?: string
   duration?: string
 }
 
-export function ProjectCard({ title, description, tags, codename, threatLevel = "MEDIUM", duration }: ProjectCardProps) {
-  const [isHovered, setIsHovered] = useState(false)
+export function ProjectCard({ title, description, tags, client, role, duration }: ProjectCardProps) {
   const { t } = useT()
-  const opCode = codename ?? `OP-${Math.floor(Math.random() * 9000 + 1000)}`
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
+    <motion.article
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="group h-full"
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-background transition-colors hover:border-foreground/20"
     >
-      <div
-        className="relative h-full bg-card border border-border transition-colors duration-300 group-hover:border-accent flex flex-col"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <span className="absolute top-1 left-1 w-3 h-3 border-t-2 border-l-2 border-accent/0 group-hover:border-accent transition-colors" />
-        <span className="absolute top-1 right-1 w-3 h-3 border-t-2 border-r-2 border-accent/0 group-hover:border-accent transition-colors" />
-        <span className="absolute bottom-1 left-1 w-3 h-3 border-b-2 border-l-2 border-accent/0 group-hover:border-accent transition-colors" />
-        <span className="absolute bottom-1 right-1 w-3 h-3 border-b-2 border-r-2 border-accent/0 group-hover:border-accent transition-colors" />
-
-        <div className="relative h-44 border-b border-border bg-secondary/40 tactical-grid overflow-hidden">
-          <div className="absolute inset-0 noise scanlines" />
-          <div className="absolute top-2 left-2 right-2 flex justify-between items-center text-[10px] font-mono uppercase tracking-widest text-muted-foreground z-10">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 bg-destructive animate-blink" />
-              REC
-            </span>
-            <span>{opCode}</span>
+      <div className="flex flex-1 flex-col p-6">
+        <div className="flex items-start justify-between gap-3">
+          <div className="text-xs uppercase tracking-[0.18em] text-accent">
+            {t("projects.client")} · {client}
           </div>
-
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <div className="font-stencil text-3xl md:text-4xl text-accent uppercase tracking-widest text-shadow-stencil">
-                {opCode}
-              </div>
-              <div className="font-mono text-[10px] text-muted-foreground mt-1 tracking-widest">
-                {t("projects.dossier")}
-              </div>
-            </div>
-          </div>
-
-          <div
-            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"}`}
-          >
-            <div className="relative w-32 h-32 border border-accent/70 rounded-full">
-              <div className="absolute top-1/2 left-0 w-full h-px bg-accent/70" />
-              <div className="absolute left-1/2 top-0 h-full w-px bg-accent/70" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-accent" />
-            </div>
-          </div>
-
-          <div className="absolute top-3 right-3 z-20 stamp text-destructive font-stencil text-xs">
-            {t("projects.classified")}
-          </div>
+          <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
         </div>
 
-        <div className="p-5 flex-grow flex flex-col">
-          <div className="flex items-start gap-2 mb-2">
-            <FileText className="h-4 w-4 text-accent mt-1 shrink-0" />
-            <h3 className="font-stencil text-lg uppercase tracking-wide leading-tight">{title}</h3>
-          </div>
-          <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{description}</p>
+        <h3 className="mt-3 font-serif text-2xl leading-tight text-foreground">{title}</h3>
 
-          <div className="flex flex-wrap gap-1.5 mb-4">
-            {tags.map((tag, index) => (
-              <span
-                key={index}
-                className="text-[10px] font-mono uppercase tracking-widest border border-border bg-secondary/50 text-foreground px-2 py-0.5"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+        <p className="mt-3 flex-1 text-[15px] leading-relaxed text-muted-foreground">{description}</p>
 
-          <div className="mt-auto pt-3 border-t border-dashed border-border/60 grid grid-cols-3 gap-2 text-[10px] font-mono uppercase tracking-widest">
-            <div>
-              <div className="text-muted-foreground">{t("projects.threat")}</div>
-              <div className="text-accent flex items-center gap-1">
-                <Crosshair className="h-3 w-3" />
-                {threatLevel}
-              </div>
-            </div>
-            <div>
-              <div className="text-muted-foreground">{t("projects.duration")}</div>
-              <div className="text-foreground">{duration ?? "—"}</div>
-            </div>
-            <div>
-              <div className="text-muted-foreground">{t("projects.outcome")}</div>
-              <div className="text-accent">{t("projects.outcome.value")}</div>
-            </div>
-          </div>
+        <div className="mt-5 flex flex-wrap gap-1.5">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-border bg-muted px-2.5 py-0.5 text-xs text-foreground"
+            >
+              {tag}
+            </span>
+          ))}
         </div>
       </div>
-    </motion.div>
+
+      <div className="grid grid-cols-2 gap-px border-t border-border bg-border">
+        <div className="bg-background p-4">
+          <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+            {t("projects.role")}
+          </div>
+          <div className="mt-1 text-sm font-medium text-foreground">{role ?? "—"}</div>
+        </div>
+        <div className="bg-background p-4">
+          <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+            {t("projects.duration")}
+          </div>
+          <div className="mt-1 text-sm font-medium text-foreground">{duration ?? "—"}</div>
+        </div>
+      </div>
+    </motion.article>
   )
 }

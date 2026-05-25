@@ -21,7 +21,7 @@ export function ContactForm() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    await new Promise((resolve) => setTimeout(resolve, 1200))
 
     toast({
       title: t("contact.toast.title"),
@@ -34,90 +34,75 @@ export function ContactForm() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
+      className="rounded-2xl border border-border bg-background p-6 md:p-8"
     >
-      <div className="relative bg-card border border-border">
-        <span className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-accent" />
-        <span className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-accent" />
-        <span className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-accent" />
-        <span className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-accent" />
-
-        <div className="bg-secondary/60 border-b border-border px-4 py-2 flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-          <span className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-destructive animate-blink rounded-full" />
-            {t("contact.form.channel")}
-          </span>
-          <span>FREQ.443.92</span>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <Field label={t("contact.form.name")}>
+            <Input
+              required
+              placeholder={t("contact.form.name.ph")}
+              className="h-11 rounded-lg border-border bg-background"
+            />
+          </Field>
+          <Field label={t("contact.form.email")}>
+            <Input
+              type="email"
+              required
+              placeholder={t("contact.form.email.ph")}
+              className="h-11 rounded-lg border-border bg-background"
+            />
+          </Field>
         </div>
 
-        <div className="p-6">
-          <h3 className="font-stencil text-2xl uppercase tracking-wide mb-1">{t("contact.form.title")}</h3>
-          <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-6">
-            {t("contact.form.sub")}
-          </p>
+        <Field label={t("contact.form.subject")}>
+          <Input
+            required
+            placeholder={t("contact.form.subject.ph")}
+            className="h-11 rounded-lg border-border bg-background"
+          />
+        </Field>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-1.5">
-              <label className="block text-[10px] font-mono uppercase tracking-widest text-accent">
-                {t("contact.form.id")}
-              </label>
-              <Input
-                placeholder={t("contact.form.id.ph")}
-                required
-                className="bg-background border-border focus:border-accent rounded-none font-mono"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <label className="block text-[10px] font-mono uppercase tracking-widest text-accent">
-                {t("contact.form.return")}
-              </label>
-              <Input
-                type="email"
-                placeholder={t("contact.form.return.ph")}
-                required
-                className="bg-background border-border focus:border-accent rounded-none font-mono"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <label className="block text-[10px] font-mono uppercase tracking-widest text-accent">
-                {t("contact.form.subject")}
-              </label>
-              <Input
-                placeholder={t("contact.form.subject.ph")}
-                required
-                className="bg-background border-border focus:border-accent rounded-none font-mono"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <label className="block text-[10px] font-mono uppercase tracking-widest text-accent">
-                {t("contact.form.body")}
-              </label>
-              <Textarea
-                placeholder={t("contact.form.body.ph")}
-                rows={5}
-                required
-                className="bg-background border-border focus:border-accent rounded-none font-mono resize-none"
-              />
-            </div>
-            <Button
-              type="submit"
-              className="w-full bg-accent hover:bg-accent/90 text-accent-foreground rounded-none font-stencil uppercase tracking-widest h-11"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>{t("contact.form.submitting")}</>
-              ) : (
-                <>
-                  {t("contact.form.submit")} <Send className="ml-2 h-4 w-4" />
-                </>
-              )}
-            </Button>
-          </form>
-        </div>
-      </div>
+        <Field label={t("contact.form.message")}>
+          <Textarea
+            required
+            rows={6}
+            placeholder={t("contact.form.message.ph")}
+            className="resize-none rounded-lg border-border bg-background"
+          />
+        </Field>
+
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          size="lg"
+          className="h-12 w-full rounded-full text-sm font-medium"
+        >
+          {isSubmitting ? (
+            t("contact.form.submitting")
+          ) : (
+            <>
+              {t("contact.form.submit")}
+              <Send className="ml-2 h-4 w-4" />
+            </>
+          )}
+        </Button>
+      </form>
     </motion.div>
+  )
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+        {label}
+      </span>
+      {children}
+    </label>
   )
 }

@@ -8,10 +8,10 @@ const experiencesFr = [
   {
     title: "Expert Power Platform & SharePoint",
     company: "NaTran (ex GRTgaz) — Freelance",
-    period: "05/2025 — ACTIF",
+    period: "05/2025 — En cours",
     description:
       "Intégré à l'équipe Collaboration de la DSI. Conception et développement d'applications métier sur SharePoint Online (SPFx, React), PowerApps et Power Automate. Animation d'ateliers, recueil des User Stories, sites modernes, support N3 Microsoft, gouvernance M365 (Teams, OneDrive, Viva).",
-    status: "ACTIVE",
+    active: true,
   },
   {
     title: "Expert SharePoint",
@@ -89,10 +89,10 @@ const experiencesEn = [
   {
     title: "Power Platform & SharePoint Expert",
     company: "NaTran (ex GRTgaz) — Freelance",
-    period: "05/2025 — ACTIVE",
+    period: "05/2025 — Current",
     description:
       "Embedded in the IT Collaboration team. Designing and building business apps on SharePoint Online (SPFx, React), PowerApps and Power Automate. Workshops, User Stories, modern sites, Microsoft N3 support, M365 governance (Teams, OneDrive, Viva).",
-    status: "ACTIVE",
+    active: true,
   },
   {
     title: "SharePoint Expert",
@@ -168,81 +168,69 @@ const experiencesEn = [
 
 export function Timeline() {
   const isMobile = useMobile()
-  const { lang } = useT()
+  const { lang, t } = useT()
   const experiences = lang === "en" ? experiencesEn : experiencesFr
 
   return (
-    <div
-      className={`space-y-10 relative ${
-        !isMobile
-          ? "before:absolute before:inset-0 before:left-1/2 before:-translate-x-px before:border-l-2 before:border-dashed before:border-border before:h-full before:z-0"
-          : "before:absolute before:left-3 before:top-0 before:bottom-0 before:border-l-2 before:border-dashed before:border-border"
-      }`}
-    >
-      {experiences.map((experience, index) => {
-        const opNum = String(experiences.length - index).padStart(2, "0")
-        return (
-          <div
-            key={index}
-            className={`relative z-10 flex items-center ${
-              !isMobile ? (index % 2 === 0 ? "md:flex-row-reverse" : "md:flex-row") : "pl-10"
+    <ol className="relative mx-auto max-w-3xl">
+      {/* vertical rail */}
+      <div
+        aria-hidden
+        className="absolute bottom-0 left-3 top-2 w-px bg-border md:left-[7.5rem]"
+      />
+
+      {experiences.map((exp, index) => (
+        <motion.li
+          key={index}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.2) }}
+          viewport={{ once: true, margin: "-50px" }}
+          className="relative pb-10 pl-10 md:pl-40"
+        >
+          {/* period (left rail on desktop) */}
+          {!isMobile && (
+            <div className="absolute left-0 top-1 hidden w-[6.5rem] text-right text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground md:block">
+              {exp.period}
+            </div>
+          )}
+
+          {/* dot */}
+          <span
+            className={`absolute left-[7px] top-2 flex h-3 w-3 items-center justify-center md:left-[7.5rem] md:-translate-x-1/2 ${
+              exp.active ? "" : ""
             }`}
           >
-            <motion.div
-              className={`w-full ${!isMobile ? "md:w-1/2 " + (index % 2 === 0 ? "md:pl-10" : "md:pr-10") : ""}`}
-              initial={{ opacity: 0, x: !isMobile ? (index % 2 === 0 ? 50 : -50) : 0, y: isMobile ? 20 : 0 }}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <div className="relative bg-card border border-border p-5 transition-colors duration-300 hover:border-accent group">
-                {/* corners */}
-                <span className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-accent" />
-                <span className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-accent" />
-                <span className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-accent" />
-                <span className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-accent" />
+            {exp.active && (
+              <span className="absolute inline-flex h-3 w-3 animate-ping rounded-full bg-emerald-500 opacity-50" />
+            )}
+            <span
+              className={`relative h-2.5 w-2.5 rounded-full ring-4 ring-background ${
+                exp.active ? "bg-emerald-500" : "bg-foreground"
+              }`}
+            />
+          </span>
 
-                <div className="flex items-start justify-between gap-3 mb-2">
-                  <div className="font-mono text-[10px] uppercase tracking-widest text-accent">
-                    OP-{opNum}
-                  </div>
-                  <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-                    {experience.status === "ACTIVE" && (
-                      <span className="w-1.5 h-1.5 bg-destructive animate-blink rounded-full" />
-                    )}
-                    {experience.period}
-                  </div>
-                </div>
-                <h3 className="font-stencil text-lg uppercase tracking-wide leading-tight mb-1">
-                  {experience.title}
-                </h3>
-                <div className="text-xs font-mono uppercase tracking-widest text-accent/80 mb-3">
-                  ► {experience.company}
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{experience.description}</p>
-              </div>
-            </motion.div>
-
-            {!isMobile ? (
-              <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center">
-                <motion.div
-                  className="w-5 h-5 bg-background border-2 border-accent z-10 flex items-center justify-center rotate-45"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="w-1.5 h-1.5 bg-accent" />
-                </motion.div>
-              </div>
-            ) : (
-              <div className="absolute left-3 -translate-x-1/2 flex items-center justify-center">
-                <div className="w-3 h-3 bg-background border-2 border-accent rotate-45" />
+          <div className="rounded-2xl border border-border bg-background p-5 transition-colors hover:border-foreground/20">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h3 className="font-serif text-xl text-foreground">{exp.title}</h3>
+              {exp.active && (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  {t("exp.current")}
+                </span>
+              )}
+            </div>
+            <div className="mt-1 text-sm font-medium text-accent">{exp.company}</div>
+            {isMobile && (
+              <div className="mt-1 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                {exp.period}
               </div>
             )}
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{exp.description}</p>
           </div>
-        )
-      })}
-    </div>
+        </motion.li>
+      ))}
+    </ol>
   )
 }
